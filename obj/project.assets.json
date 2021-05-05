@@ -7407,11 +7407,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Learnning\\PBL 3\\TalktifAPI\\TalktifAPI.csproj",
+      "projectUniqueName": "E:\\Learnning\\PBL 3\\Deployment\\TalktifAPI\\TalktifAPI.csproj",
       "projectName": "TalktifAPI",
-      "projectPath": "E:\\Learnning\\PBL 3\\TalktifAPI\\TalktifAPI.csproj",
+      "projectPath": "E:\\Learnning\\PBL 3\\Deployment\\TalktifAPI\\TalktifAPI.csproj",
       "packagesPath": "C:\\Users\\andep\\.nuget\\packages\\",
-      "outputPath": "E:\\Learnning\\PBL 3\\TalktifAPI\\obj\\",
+      "outputPath": "E:\\Learnning\\PBL 3\\Deployment\\TalktifAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

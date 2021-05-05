@@ -68,7 +68,8 @@ namespace TalktifAPI.Data
                         CreateAt = DateTime.Now,
                         Device = user.Device
                     });
-                return new SignUpRespond(new ReadUserDto{ Email = user.Email, 
+                return new SignUpRespond(new ReadUserDto{ Id = read.Id,
+                                                        Email = user.Email, 
                                                         Name = user.Name, 
                                                         Gender= user.Gender, 
                                                         Hobbies = user.Hobbies,
