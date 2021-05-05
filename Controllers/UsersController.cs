@@ -32,8 +32,7 @@ namespace TalktifAPI.Controllers
                 setTokenCookie(r.RefreshToken);
                 return Ok(r);
             }catch(Exception e){
-                Console.WriteLine(e.ToString());
-                return NoContent();
+                return NotFound(e.Message);
             }
         }
         [HttpPost]
@@ -45,8 +44,8 @@ namespace TalktifAPI.Controllers
                 if(r!=null) setTokenCookie(r.RefreshToken);
                 _repository.saveChange();
                 return Ok(r);
-            }catch(Exception){
-                return NotFound();
+            }catch(Exception e){
+                return NotFound(e.Message);
             }
         }
         [HttpPost]
