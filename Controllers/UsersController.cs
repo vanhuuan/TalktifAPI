@@ -31,13 +31,14 @@ namespace TalktifAPI.Controllers
         {
             try{
                 SignUpRespond r = _service.signUp(user);
-                MailContent content = new MailContent {
-                    To = user.Email,
-                    Subject = "Confirm Email",
-                    Body = "<h3><strong>Xin chào "+user.Name+" </strong></h3><p>Cảm ơn bạn vừa đăng ký tài khoản Talktif, nhập mã code này để hoàn tấy đăng ký : " + r.RefreshTokenId + ""  + r.RefreshToken+"</p>"
-                };
-                Console.WriteLine(content.Body);
-                _emailService.SendMail(content);
+                // MailContent content = new MailContent {
+                //     To = user.Email,
+                //     Subject = "Confirm Email",
+                //     Body = "<h3><strong>Xin chào "+user.Name+" </strong></h3><p>Cảm ơn bạn vừa đăng ký tài khoản Talktif, nhập mã code này để hoàn tấy đăng ký : " + r.RefreshTokenId + ""  + r.RefreshToken+"</p>"
+                // };
+                // Console.WriteLine(content.Body);
+                // _emailService.SendMail(content);
+                if(r!=null) setTokenCookie(r.RefreshToken,r.RefreshTokenId);
                 return Ok(r);
             }catch(Exception e){
                 Console.WriteLine(e.ToString());
@@ -61,16 +62,17 @@ namespace TalktifAPI.Controllers
         public ActionResult ResetPassword(ResetPassRequest user)
         {
             try{
+                var u = _service.getInfoByEmail(user.Email);
                 if(_service.getInfoByEmail(user.Email)==null) throw new Exception("Email is not exist");
-                Random random = new Random();
-                int num = random.Next(1000,9999);
-                MailContent content = new MailContent {
-                    To = user.Email,
-                    Subject = "Reset Password Email",
-                    Body = "<h3><strong>Xin chào</strong></h3><p>Bạn vừa thay đổi mật  khẩu tài khoản Talktif, mã xác nhận của bạn là : "+num+"</p>"
-                };
-                _emailService.SendMail(content);
-                return Ok(num);
+                // Random random = new Random();
+                // int num = random.Next(1000,9999);
+                // MailContent content = new MailContent {
+                //     To = user.Email,
+                //     Subject = "Reset Password Email",
+                //     Body = "<h3><strong>Xin chào</strong></h3><p>Bạn vừa thay đổi mật  khẩu tài khoản Talktif, mã xác nhận của bạn là : "+num+"</p>"
+                // };
+                // _emailService.SendMail(content);
+                return Ok();
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 return BadRequest(e);
