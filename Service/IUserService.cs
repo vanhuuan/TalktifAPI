@@ -7,6 +7,7 @@ namespace TalktifAPI.Service
     {
         bool isUserExists(int id);
         ReadUserDto getInfoById(int id);   
+        ReadUserDto getInfoByEmail(string email);   
         SignUpRespond signUp(SignUpRequest user);
         LoginRespond signIn(LoginRequest user);
         ReadUserDto updateInfo(UpdateInfoRequest user);

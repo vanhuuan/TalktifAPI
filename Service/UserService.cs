@@ -157,5 +157,13 @@ namespace TalktifAPI.Service
             if( t!= null && token.Equals(t.RefreshToken)) return true;
             return false;
         }
+
+        public ReadUserDto getInfoByEmail(string email)
+        {
+            User user = _userService.GetUserByEmail(email);
+            if(user==null) throw new Exception("user doesn't exist!");
+            return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
+                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies};
+        }
     }   
 }
