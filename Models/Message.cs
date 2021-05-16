@@ -28,8 +28,5 @@ namespace TalktifAPI.Models
         [ForeignKey(nameof(ChatRoomId))]
         [InverseProperty("Messages")]
         public virtual ChatRoom ChatRoom { get; set; }
-        [ForeignKey(nameof(Sender))]
-        [InverseProperty(nameof(User.Messages))]
-        public virtual User SenderNavigation { get; set; }
     }
 }

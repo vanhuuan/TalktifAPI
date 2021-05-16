@@ -10,8 +10,8 @@ using TalktifAPI.Models;
 namespace TalktifAPI.Migrations
 {
     [DbContext(typeof(TalktifContext))]
-    [Migration("20210409040850_reinit")]
-    partial class reinit
+    [Migration("20210516011235_Email service")]
+    partial class Emailservice
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,8 +80,6 @@ namespace TalktifAPI.Migrations
 
                     b.HasIndex("ChatRoomId");
 
-                    b.HasIndex("Sender");
-
                     b.ToTable("Message");
                 });
 
@@ -134,6 +132,10 @@ namespace TalktifAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("ConfirmedEmail")
+                        .HasColumnType("bit")
+                        .HasColumnName("confirmedEmail");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime")
@@ -200,6 +202,11 @@ namespace TalktifAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("chatRoomId");
 
+                    b.Property<string>("NickName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("nickname");
+
                     b.HasKey("User", "ChatRoomId")
                         .HasName("PK__User_Cha__4372E63A933B1139");
 
@@ -222,16 +229,16 @@ namespace TalktifAPI.Migrations
 
                     b.Property<string>("Device")
                         .IsRequired()
-                        .HasMaxLength(1)
+                        .HasMaxLength(1000)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(1)")
+                        .HasColumnType("varchar(1000)")
                         .HasColumnName("device");
 
                     b.Property<string>("RefreshToken")
                         .IsRequired()
-                        .HasMaxLength(1)
+                        .HasMaxLength(1000)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(1)")
+                        .HasColumnType("varchar(1000)")
                         .HasColumnName("refreshToken");
 
                     b.Property<int>("User")
@@ -253,15 +260,7 @@ namespace TalktifAPI.Migrations
                         .HasConstraintName("FK__Message__chatRoo__7F2BE32F")
                         .IsRequired();
 
-                    b.HasOne("TalktifAPI.Models.User", "SenderNavigation")
-                        .WithMany("Messages")
-                        .HasForeignKey("Sender")
-                        .HasConstraintName("FK__Message__sender__7E37BEF6")
-                        .IsRequired();
-
                     b.Navigation("ChatRoom");
-
-                    b.Navigation("SenderNavigation");
                 });
 
             modelBuilder.Entity("TalktifAPI.Models.Report", b =>
@@ -314,8 +313,6 @@ namespace TalktifAPI.Migrations
 
             modelBuilder.Entity("TalktifAPI.Models.User", b =>
                 {
-                    b.Navigation("Messages");
-
                     b.Navigation("Reports");
 
                     b.Navigation("UserChatRooms");

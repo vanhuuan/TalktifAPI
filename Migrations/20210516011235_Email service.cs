@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TalktifAPI.Migrations
 {
-    public partial class init : Migration
+    public partial class Emailservice : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,10 +31,11 @@ namespace TalktifAPI.Migrations
                     name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     email = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
                     password = table.Column<string>(type: "varchar(100)", unicode: false, maxLength: 100, nullable: false),
-                    gender = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "((1))"),
+                    gender = table.Column<bool>(type: "bit", nullable: true, defaultValueSql: "((1))"),
                     hobbies = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    isAdmin = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "((1))"),
-                    isActive = table.Column<bool>(type: "bit", nullable: false, defaultValueSql: "((1))"),
+                    isAdmin = table.Column<bool>(type: "bit", nullable: true, defaultValueSql: "((1))"),
+                    confirmedEmail = table.Column<bool>(type: "bit", nullable: true),
+                    isActive = table.Column<bool>(type: "bit", nullable: true, defaultValueSql: "((1))"),
                     createdAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
@@ -60,12 +61,6 @@ namespace TalktifAPI.Migrations
                         name: "FK__Message__chatRoo__7F2BE32F",
                         column: x => x.chatRoomId,
                         principalTable: "Chat_Room",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK__Message__sender__7E37BEF6",
-                        column: x => x.sender,
-                        principalTable: "User",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -99,7 +94,8 @@ namespace TalktifAPI.Migrations
                 columns: table => new
                 {
                     user = table.Column<int>(type: "int", nullable: false),
-                    chatRoomId = table.Column<int>(type: "int", nullable: false)
+                    chatRoomId = table.Column<int>(type: "int", nullable: false),
+                    nickname = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,8 +121,8 @@ namespace TalktifAPI.Migrations
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     user = table.Column<int>(type: "int", nullable: false),
-                    refreshToken = table.Column<string>(type: "varchar(1)", unicode: false, maxLength: 1, nullable: false),
-                    device = table.Column<string>(type: "varchar(1)", unicode: false, maxLength: 1, nullable: false),
+                    refreshToken = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false),
+                    device = table.Column<string>(type: "varchar(1000)", unicode: false, maxLength: 1000, nullable: false),
                     createAt = table.Column<DateTime>(type: "datetime", nullable: true)
                 },
                 constraints: table =>
@@ -144,11 +140,6 @@ namespace TalktifAPI.Migrations
                 name: "IX_Message_chatRoomId",
                 table: "Message",
                 column: "chatRoomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Message_sender",
-                table: "Message",
-                column: "sender");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Report_reporter",

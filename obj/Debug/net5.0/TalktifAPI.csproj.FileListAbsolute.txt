@@ -138,6 +138,9 @@ E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\AutoMapper.dll
 E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\BCrypt.Net-Next.dll
 E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\MailKit.dll
+E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\MimeKit.dll
+E:\Learnning\PBL 3\TalktifAPI\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\appsettings.Development.json
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\appsettings.json
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\TalktifAPI.exe
@@ -151,6 +154,7 @@ E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\AutoMapper.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\BCrypt.Net-Next.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Humanizer.dll
+E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\MailKit.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -182,7 +186,9 @@ E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.VisualStudio
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
+E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\MimeKit.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Newtonsoft.Json.dll
+E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\BouncyCastle.Crypto.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 E:\Learnning\PBL 3\Deployment\TalktifAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll

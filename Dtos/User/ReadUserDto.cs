@@ -14,6 +14,8 @@ namespace TalktifAPI.Dtos
         [StringLength(100)]
         public string Email { get; set; }
         public bool? Gender { get; set; }
+        public bool? IsAdmin {get; set;}
+        public bool? IsActive {get; set;}
         public string Hobbies { get; set; }
         public string token { get; set; }
     }

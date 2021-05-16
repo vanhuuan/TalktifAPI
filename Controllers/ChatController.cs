@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using TalktifAPI.Data;
 using TalktifAPI.Dtos;
+using TalktifAPI.Dtos.Message;
+using TalktifAPI.Dtos.User;
 using TalktifAPI.Models;
+using TalktifAPI.Service;
 
 namespace TalktifAPI.Controllers
 {
@@ -11,11 +13,11 @@ namespace TalktifAPI.Controllers
     [ApiController]
     public class ChatController : ControllerBase
     {
-        private readonly IChatRepo _repository;
+        private readonly IChatService _service;
 
-        public ChatController(IChatRepo repository)
+        public ChatController(IChatService service)
         {
-            _repository = repository;
+            _service = service;
         }
         [HttpGet]   
         [Authorize]     
@@ -23,15 +25,11 @@ namespace TalktifAPI.Controllers
         public ActionResult Create(CreateChatRoomRequest createChatRoom)
         {
             try{
-                bool check =_repository.CreateChatRoom(createChatRoom);
-                if(check==true){ 
-                    _repository.SaveChange();
-                    return Ok();
-                }
-                else return NoContent();
+                CreateChatRoomRespond respond =_service.CreateChatRoom(createChatRoom);
+                return Ok(respond);
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"createchatroom err");
-                return NoContent();
+                return BadRequest();
             }
         }
         [HttpPost]   
@@ -40,7 +38,7 @@ namespace TalktifAPI.Controllers
         public ActionResult<List<FetchAllChatRoomRespond>> FetchAllChatRoom(int userid)
         {
             try{
-                List<FetchAllChatRoomRespond> list =_repository.FetchAllChatRoom(userid);
+                List<FetchAllChatRoomRespond> list =_service.FetchAllChatRoom(userid);
                 if(list!=null) return Ok(list);
                 else return BadRequest();
             }catch(Exception e){
@@ -55,7 +53,7 @@ namespace TalktifAPI.Controllers
         public ActionResult<List<MessageRespond>> FecthMessage(FetchMessageRequest request)
         {
             try{
-                List<MessageRespond> list =_repository.FecthAllMessageInChatRoom(request);
+                List<MessageRespond> list =_service.FecthAllMessageInChatRoom(request);
                 if(list!=null) return Ok(list);
                 else return BadRequest();
             }catch(Exception e){
@@ -65,11 +63,11 @@ namespace TalktifAPI.Controllers
         } 
         [HttpPost]   
         [Authorize]     
-        [Route("GetChatRoomInfo/{roomid}")]
-        public ActionResult<GetChatRoomInfoRespond> GetChatRoomInfo(int roomid)
+        [Route("GetChatRoomInfo")]
+        public ActionResult<GetChatRoomInfoRespond> GetChatRoomInfo(GetChatRoomInfoRequest room)
         {
             try{
-                GetChatRoomInfoRespond g =_repository.GetChatRoomInfo(roomid);
+                GetChatRoomInfoRespond g =_service.GetChatRoomInfo(room);
                 if(g!=null) return Ok(g);
                 else return BadRequest();
             }catch(Exception e){
@@ -83,9 +81,8 @@ namespace TalktifAPI.Controllers
         public ActionResult<GetChatRoomInfoRespond> AddMessage(AddMessageRequest mess)
         {
             try{
-                bool check =_repository.AddMessage(mess);
+                bool check =_service.AddMessage(mess);
                 if( check!=false ){
-                    _repository.SaveChange();
                     return Ok();
                 }
                 else return BadRequest();
@@ -100,9 +97,8 @@ namespace TalktifAPI.Controllers
         public ActionResult<GetChatRoomInfoRespond> DeleteFriend(DeleteFriendRequest mess)
         {
             try{
-                bool check =_repository.DeleteChatRoom(mess);
+                bool check =_service.DeleteChatRoom(mess);
                 if( check!=false ){
-                    _repository.SaveChange();
                     return Ok();
                 }
                 else return BadRequest();

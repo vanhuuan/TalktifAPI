@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using TalktifAPI.Dtos;
-using TalktifAPI.Models;
+using TalktifAPI.Dtos.Message;
+using TalktifAPI.Dtos.User;
 
-namespace TalktifAPI.Data
+namespace TalktifAPI.Service
 {
-    public interface IChatRepo
+    public interface IChatService
     {
-        bool SaveChange();
         List<MessageRespond> FecthAllMessageInChatRoom(FetchMessageRequest request);
         List<FetchAllChatRoomRespond> FetchAllChatRoom(int id);
-        GetChatRoomInfoRespond GetChatRoomInfo(int roomid);
-        bool CreateChatRoom(CreateChatRoomRequest r);
+        GetChatRoomInfoRespond GetChatRoomInfo(GetChatRoomInfoRequest room);
+        CreateChatRoomRespond CreateChatRoom(CreateChatRoomRequest r);
         bool DeleteChatRoom(DeleteFriendRequest room);
         bool ChangeNickName(ChangeNickNameRequest r);
         bool AddMessage(AddMessageRequest mess);

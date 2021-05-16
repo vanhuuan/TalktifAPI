@@ -78,8 +78,6 @@ namespace TalktifAPI.Migrations
 
                     b.HasIndex("ChatRoomId");
 
-                    b.HasIndex("Sender");
-
                     b.ToTable("Message");
                 });
 
@@ -132,6 +130,10 @@ namespace TalktifAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("ConfirmedEmail")
+                        .HasColumnType("bit")
+                        .HasColumnName("confirmedEmail");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime")
@@ -256,15 +258,7 @@ namespace TalktifAPI.Migrations
                         .HasConstraintName("FK__Message__chatRoo__7F2BE32F")
                         .IsRequired();
 
-                    b.HasOne("TalktifAPI.Models.User", "SenderNavigation")
-                        .WithMany("Messages")
-                        .HasForeignKey("Sender")
-                        .HasConstraintName("FK__Message__sender__7E37BEF6")
-                        .IsRequired();
-
                     b.Navigation("ChatRoom");
-
-                    b.Navigation("SenderNavigation");
                 });
 
             modelBuilder.Entity("TalktifAPI.Models.Report", b =>
@@ -317,8 +311,6 @@ namespace TalktifAPI.Migrations
 
             modelBuilder.Entity("TalktifAPI.Models.User", b =>
                 {
-                    b.Navigation("Messages");
-
                     b.Navigation("Reports");
 
                     b.Navigation("UserChatRooms");

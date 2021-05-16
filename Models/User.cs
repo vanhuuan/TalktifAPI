@@ -14,14 +14,12 @@ namespace TalktifAPI.Models
     {
         public User()
         {
-            Messages = new HashSet<Message>();
             Reports = new HashSet<Report>();
             UserChatRooms = new HashSet<UserChatRoom>();
             UserRefreshTokens = new HashSet<UserRefreshToken>();
         }
         public User(string Name,string Email,String Password,bool gender,String hobbies)
         {
-            Messages = new HashSet<Message>();
             Reports = new HashSet<Report>();
             UserChatRooms = new HashSet<UserChatRoom>();
             UserRefreshTokens = new HashSet<UserRefreshToken>();
@@ -31,7 +29,23 @@ namespace TalktifAPI.Models
             Gender = gender;
             Hobbies = hobbies;
             IsActive = true;
+            ConfirmedEmail = false;
             IsAdmin = false;
+            CreatedAt = DateTime.Now;
+        }
+        public User(string Name,string Email,String Password,bool gender,String hobbies,bool isAdmin)
+        {
+            Reports = new HashSet<Report>();
+            UserChatRooms = new HashSet<UserChatRoom>();
+            UserRefreshTokens = new HashSet<UserRefreshToken>();
+            this.Name = Name;
+            this.Email = Email;
+            this.Password = Password;
+            Gender = gender;
+            Hobbies = hobbies;
+            IsActive = true;
+            ConfirmedEmail = true;
+            IsAdmin = isAdmin;
             CreatedAt = DateTime.Now;
         }
         [Key]
@@ -56,13 +70,13 @@ namespace TalktifAPI.Models
         public string Hobbies { get; set; }
         [Column("isAdmin")]
         public bool? IsAdmin { get; set; }
+        [Column("confirmedEmail")]
+        public bool? ConfirmedEmail { get; set; }
         [Column("isActive")]
         public bool? IsActive { get; set; }
         [Column("createdAt", TypeName = "datetime")]
         public DateTime? CreatedAt { get; set; }
 
-        [InverseProperty(nameof(Message.SenderNavigation))]
-        public virtual ICollection<Message> Messages { get; set; }
         [InverseProperty(nameof(Report.ReporterNavigation))]
         public virtual ICollection<Report> Reports { get; set; }
         [InverseProperty(nameof(UserChatRoom.UserNavigation))]

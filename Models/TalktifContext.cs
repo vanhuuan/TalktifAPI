@@ -49,12 +49,6 @@ namespace TalktifAPI.Models
                     .HasForeignKey(d => d.ChatRoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Message__chatRoo__7F2BE32F");
-
-                entity.HasOne(d => d.SenderNavigation)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.Sender)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Message__sender__7E37BEF6");
             });
 
             modelBuilder.Entity<Report>(entity =>
