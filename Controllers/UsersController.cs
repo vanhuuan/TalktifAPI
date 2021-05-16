@@ -34,7 +34,7 @@ namespace TalktifAPI.Controllers
                 MailContent content = new MailContent {
                     To = user.Email,
                     Subject = "Confirm Email",
-                    Body = "<h3><strong>Xin chào "+user.Name+" </strong></h3><p>Cảm ơn bạn vừa đăng ký tài khoản Talktif, bấm vào link sao để hoàn tất đăng ký <a>https://talktifapi.azurewebsites.net/api/user/ActiveEmail?id="+r.RefreshTokenId+"?token="+r.RefreshToken+"</a></p>"
+                    Body = "<h3><strong>Xin chào "+user.Name+" </strong></h3><p>Cảm ơn bạn vừa đăng ký tài khoản Talktif, bấm vào link sao để hoàn tất đăng ký <a href= \" https://talktifapi.azurewebsites.net/api/user/ActiveEmail?id="+r.RefreshTokenId+"?token="+r.RefreshToken+"\">: Link</a></p>"
                 };
                 Console.WriteLine(content.Body);
                 _emailService.SendMail(content);
@@ -65,7 +65,7 @@ namespace TalktifAPI.Controllers
                 MailContent content = new MailContent {
                     To = user.Email,
                     Subject = "Reset Password Email",
-                    Body = "<h3><strong>Xin chào</strong></h3><p>Bạn vừa thay đổi mật  khẩu tài khoản Talktif, bấm vào link sao để xác nhận thay đổi <a>https://talktifapi.azurewebsites.net/api/user/ReserPasswordEmail?pass="+user.NewPass+"?email="+user.Email+"</a></p>"
+                    Body = "<h3><strong>Xin chào</strong></h3><p>Bạn vừa thay đổi mật  khẩu tài khoản Talktif, bấm vào link sao để xác nhận thay đổi <a href= \"https://talktifapi.azurewebsites.net/api/user/ReserPasswordEmail?pass="+user.NewPass+"?email="+user.Email+"\">: Link</a></p>"
                 };
                 _emailService.SendMail(content);
                 return Ok();
