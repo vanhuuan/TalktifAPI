@@ -42,7 +42,7 @@ namespace TalktifAPI.Controllers
                 return Ok(r);
             }catch(Exception e){
                 Console.WriteLine(e.ToString());
-                return NoContent();
+                return BadRequest(e);
             }
         }
         [HttpPost]
@@ -54,7 +54,8 @@ namespace TalktifAPI.Controllers
                 if(r!=null) setTokenCookie(r.RefreshToken,r.RefreshTokenId);
                 return Ok(r);
             }catch(Exception e){
-                return BadRequest(e.Message);
+                 Console.WriteLine(e.ToString());
+                return BadRequest(e);
             }
         }
         [HttpPost]
@@ -88,7 +89,7 @@ namespace TalktifAPI.Controllers
                 else return Unauthorized();
             }catch(Exception e){
                 Console.WriteLine(e.Message);
-                return Unauthorized();
+                return Unauthorized(e);
             }
         }
         [HttpGet]
