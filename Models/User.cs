@@ -29,7 +29,7 @@ namespace TalktifAPI.Models
             Gender = gender;
             Hobbies = hobbies;
             IsActive = true;
-            ConfirmedEmail = false;
+            ConfirmedEmail = true;
             IsAdmin = false;
             CreatedAt = DateTime.Now;
         }
