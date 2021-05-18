@@ -63,7 +63,7 @@ namespace TalktifAPI.Controllers
         public ActionResult ResetPassword(ResetPassRequest user)
         {
             try{
-                var u = _service.getInfoByEmail(user.Email);
+                //var u = _service.getInfoByEmail(user.Email);
                 if(_service.getInfoByEmail(user.Email)==null) throw new Exception("Email is not exist");
                 // Random random = new Random();
                 // int num = random.Next(1000,9999);
@@ -93,7 +93,7 @@ namespace TalktifAPI.Controllers
             }
         }
         [HttpGet]
-        [Route("ReserPasswordEmail")]
+        [Route("ResetPasswordEmail")]
         public ActionResult<ReadUserDto> ResetPasswordEmail(ResetPassEmailRequest request){
             try{
                 LoginRespond r = _service.resetPass(request.Email,request.NewPass);
