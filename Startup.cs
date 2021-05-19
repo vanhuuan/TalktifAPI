@@ -51,6 +51,8 @@ namespace TalktifAPI
             services.AddScoped<IChatRoomRepository,ChatRoomRepository>();
             services.AddScoped<IReportRepository,ReportRepository>();
             services.AddScoped<IUserRefreshTokenRepository,UserRefreshTokenRepository>();
+            services.AddScoped<ICityRepository,CityRepository>();
+            services.AddScoped<ICountryRepository,CountryRepository>();
 
              // configure strongly typed settings object
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));

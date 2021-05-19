@@ -63,8 +63,8 @@ namespace TalktifAPI.Controllers
         public ActionResult ResetPassword(ResetPassRequest user)
         {
             try{
-                //var u = _service.getInfoByEmail(user.Email);
-                if(_service.getInfoByEmail(user.Email)==null) throw new Exception("Email is not exist");
+                var u = _service.getInfoByEmail(user.Email);
+                if(u==null) throw new Exception("Email is not exist");
                 // Random random = new Random();
                 // int num = random.Next(1000,9999);
                 // MailContent content = new MailContent {
@@ -73,31 +73,51 @@ namespace TalktifAPI.Controllers
                 //     Body = "<h3><strong>Xin chào</strong></h3><p>Bạn vừa thay đổi mật  khẩu tài khoản Talktif, mã xác nhận của bạn là : "+num+"</p>"
                 // };
                 // _emailService.SendMail(content);
-                return Ok();
+                return Ok(u.Hobbies);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 return BadRequest(e);
             }
         }
-        [HttpPost]
-        [Route("ActiveEmail")]
-        public ActionResult ActiveEmail(ActiveEmailRequest request){
-            try{
-                if(_service.ActiveEmail(request.Token,request.Id)){
-                    return Ok();
-                }
-                else return Unauthorized();
-            }catch(Exception e){
-                Console.WriteLine(e.Message);
-                return Unauthorized(e);
-            }
-        }
+        // [HttpPost]
+        // [Route("ActiveEmail")]
+        // public ActionResult ActiveEmail(ActiveEmailRequest request){
+        //     try{
+        //         if(_service.ActiveEmail(request.Token,request.Id)){
+        //             return Ok();
+        //         }
+        //         else return Unauthorized();
+        //     }catch(Exception e){
+        //         Console.WriteLine(e.Message);
+        //         return Unauthorized(e);
+        //     }
+        // }
         [HttpGet]
         [Route("ResetPasswordEmail")]
         public ActionResult<ReadUserDto> ResetPasswordEmail(ResetPassEmailRequest request){
             try{
                 LoginRespond r = _service.resetPass(request.Email,request.NewPass);
                 return Ok(r);
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+                return Unauthorized();
+            }
+        }
+        [HttpGet]
+        [Route("GetAllCountry")]
+        public ActionResult<Country> GetAllCountry(){
+            try{
+                return Ok(_service.GetAllCountry());
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+                return Unauthorized();
+            }
+        }
+        [HttpGet]
+        [Route("GetAllCityCountry/{id}")]
+        public ActionResult<City> GetAllCityCountry(int id){
+            try{
+                return Ok(_service.GettCityByCountry(id));
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 return Unauthorized();
@@ -154,6 +174,7 @@ namespace TalktifAPI.Controllers
             }
         }
         [HttpPost("Report")]
+        [Authorize]
         public IActionResult Report(ReportRequest request)
         {
             try{

@@ -17,8 +17,7 @@ namespace TalktifAPI.Dtos
         [Required]
         public bool Gender { get; set; }
         [Required]
-        [StringLength(100)]
-        public String Address { get; set; }
+        public int CityId { get; set; }
         [Required]
         [StringLength(200)]
         public string Hobbies { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace TalktifAPI.Models
 {
     [Table("User")]
-    [Index(nameof(Email), Name = "UQ__User__AB6E616459FFB8D3", IsUnique = true)]
+    [Index(nameof(Email), Name = "UQ__User__AB6E6164565CBAC3", IsUnique = true)]
     public partial class User
     {
         public User()
@@ -18,7 +18,8 @@ namespace TalktifAPI.Models
             UserChatRooms = new HashSet<UserChatRoom>();
             UserRefreshTokens = new HashSet<UserRefreshToken>();
         }
-        public User(string Name,string Email,String Password,bool gender,String hobbies)
+
+public User(string Name,string Email,String Password,bool gender,String hobbies,int cityid)
         {
             Reports = new HashSet<Report>();
             UserChatRooms = new HashSet<UserChatRoom>();
@@ -28,12 +29,13 @@ namespace TalktifAPI.Models
             this.Password = Password;
             Gender = gender;
             Hobbies = hobbies;
+            CityId = cityid;
             IsActive = true;
             ConfirmedEmail = true;
             IsAdmin = false;
             CreatedAt = DateTime.Now;
         }
-        public User(string Name,string Email,String Password,bool gender,String hobbies,bool isAdmin)
+        public User(string Name,string Email,String Password,bool gender,String hobbies,int cityid ,bool isAdmin)
         {
             Reports = new HashSet<Report>();
             UserChatRooms = new HashSet<UserChatRoom>();
@@ -43,11 +45,13 @@ namespace TalktifAPI.Models
             this.Password = Password;
             Gender = gender;
             Hobbies = hobbies;
+            CityId = cityid;
             IsActive = true;
             ConfirmedEmail = true;
             IsAdmin = isAdmin;
             CreatedAt = DateTime.Now;
         }
+
         [Key]
         [Column("id")]
         public int Id { get; set; }
@@ -68,6 +72,8 @@ namespace TalktifAPI.Models
         [Column("hobbies")]
         [StringLength(1000)]
         public string Hobbies { get; set; }
+        [Column("cityId")]
+        public int CityId { get; set; }
         [Column("isAdmin")]
         public bool? IsAdmin { get; set; }
         [Column("confirmedEmail")]
@@ -77,6 +83,9 @@ namespace TalktifAPI.Models
         [Column("createdAt", TypeName = "datetime")]
         public DateTime? CreatedAt { get; set; }
 
+        [ForeignKey(nameof(CityId))]
+        [InverseProperty("Users")]
+        public virtual City City { get; set; }
         [InverseProperty(nameof(Report.ReporterNavigation))]
         public virtual ICollection<Report> Reports { get; set; }
         [InverseProperty(nameof(UserChatRoom.UserNavigation))]

@@ -17,9 +17,9 @@ namespace TalktifAPI.Models
         [Key]
         [Column("chatRoomId")]
         public int ChatRoomId { get; set; }
-
-        [Column("nickname")]
-        [StringLength(100)]
+        [Required]
+        [Column("nickName")]
+        [StringLength(30)]
         public string NickName { get; set; }
 
         [ForeignKey(nameof(ChatRoomId))]

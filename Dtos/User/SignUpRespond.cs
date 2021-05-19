@@ -18,6 +18,7 @@ namespace TalktifAPI.Dtos
         public bool? IsAdmin {get; set;}
         public bool? IsActive {get; set;}
         public string Hobbies { get; set; }
+        public int CityId { get; set; }
         [Required]
         public string Token {get; set;}
         [Required]
@@ -34,6 +35,7 @@ namespace TalktifAPI.Dtos
             Email = user.Email;
             Gender = user.Gender;
             Hobbies = user.Hobbies;
+            CityId = user.CityId;
             IsActive = user.IsActive;
             IsAdmin = user.IsAdmin;
             Token = token;

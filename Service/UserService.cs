@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TalktifAPI.Dtos;
@@ -17,15 +18,19 @@ namespace TalktifAPI.Service
         private readonly IJwtService _jwtService;
         private readonly JwtConfig _JwtConfig;
         private readonly IReportRepository _reportRepository;
+        private readonly ICityRepository _cityRepository;
+        private readonly ICountryRepository _countryRepository;
 
-        public UserService(IUserRepository userService,IUserRefreshTokenRepository tokenService,
-                    IJwtService jwtService, IOptions<JwtConfig> JwtConfig,IReportRepository reportRepository)
+        public UserService(IUserRepository userService,IUserRefreshTokenRepository tokenService,ICityRepository cityRepository,
+                    IJwtService jwtService, IOptions<JwtConfig> JwtConfig,IReportRepository reportRepository, ICountryRepository countryRepository)
         {
             _userService = userService;
             _tokenService = tokenService;
             _jwtService = jwtService;
             _JwtConfig = JwtConfig.Value;
             _reportRepository = reportRepository;
+            _cityRepository = cityRepository;
+            _countryRepository = countryRepository;
         }
         public ReadUserDto getInfoById(int id)
         {
@@ -104,7 +109,7 @@ namespace TalktifAPI.Service
                 UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
                 return new LoginRespond(new ReadUserDto { Email = read.Email, Name = read.Name,
                                                         Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
-                                                        Hobbies = read.Hobbies, IsActive = read.IsActive }, token,refreshtoken,refreshToken.Id);
+                                                        Hobbies = read.Hobbies,  CityId = read.CityId , IsActive = read.IsActive }, token,refreshtoken,refreshToken.Id);
             }
             throw new Exception("Wrong Password");
         }
@@ -112,9 +117,10 @@ namespace TalktifAPI.Service
         public SignUpRespond signUp(SignUpRequest user)
         {
             User read = _userService.GetUserByEmail(user.Email);
-            if(read!=null) throw new Exception("User has already exist"+ read.Id);
-            _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.Hobbies));
+            if(read!=null) throw new Exception("User has already exist"+ read.Id); 
+            _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.Hobbies,user.CityId));
             read = _userService.GetUserByEmail(user.Email);
+        
             string token = _jwtService.GenerateSecurityToken((bool)false);
             string refreshtoken = _jwtService.GenerateRefreshToken((bool)read.IsAdmin);
             _tokenService.Insert(new UserRefreshToken{
@@ -123,8 +129,7 @@ namespace TalktifAPI.Service
             UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                                         Name = user.Name,IsAdmin = read.IsAdmin, 
-                                                        Gender= user.Gender, Hobbies = user.Hobbies,}, token,refreshtoken,refreshToken.Id);
-            throw new Exception("Wrong Password");
+                                                        Gender= user.Gender, Hobbies = user.Hobbies, CityId = user.CityId }, token,refreshtoken,refreshToken.Id);
         }
 
         public ReadUserDto updateInfo(UpdateInfoRequest user)
@@ -135,9 +140,10 @@ namespace TalktifAPI.Service
             u.Gender = user.Gender;
             u.Name = user.Name;
             u.Hobbies = user.Hobbies;
+            u.CityId = user.CityId;
             _userService.Update(u);
             return new ReadUserDto { Email = user.Email,Name = user.Name,
-                                    Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin,  Hobbies = user.Hobbies, };
+                        Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin,  Hobbies = user.Hobbies, CityId = user.CityId };
         }
         public bool ActiveEmail(string token, int id)
         {
@@ -163,7 +169,17 @@ namespace TalktifAPI.Service
             User user = _userService.GetUserByEmail(email);
             if(user==null) throw new Exception("user doesn't exist!");
             return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
-                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies};
+                                IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies , CityId = user.CityId};
+        }
+
+        public List<Country> GetAllCountry()
+        {
+            return _countryRepository.GetAll();
+        }
+
+        public List<City> GettCityByCountry(int countryid)
+        {
+            return _cityRepository.GetCityByCountry(countryid);
         }
     }   
 }

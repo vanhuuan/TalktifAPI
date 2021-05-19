@@ -22,7 +22,7 @@ namespace TalktifAPI.Models
         public string RefreshToken { get; set; }
         [Required]
         [Column("device")]
-        [StringLength(1000)]
+        [StringLength(100)]
         public string Device { get; set; }
         [Column("createAt", TypeName = "datetime")]
         public DateTime? CreateAt { get; set; }

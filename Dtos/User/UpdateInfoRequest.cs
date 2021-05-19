@@ -21,5 +21,7 @@ namespace TalktifAPI.Dtos
         [Required]
         [StringLength(200)]
         public string Hobbies { get; set; }
+        [Required]
+        public int CityId { get; set; }
     }
 }
