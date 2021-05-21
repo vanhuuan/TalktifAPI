@@ -42,7 +42,7 @@ namespace TalktifAPI.Controllers
                 return Ok(r);
             }catch(Exception e){
                 Console.WriteLine(e.ToString());
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
         [HttpPost]
@@ -55,7 +55,7 @@ namespace TalktifAPI.Controllers
                 return Ok(r);
             }catch(Exception e){
                  Console.WriteLine(e.ToString());
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
         [HttpPost]
@@ -76,7 +76,7 @@ namespace TalktifAPI.Controllers
                 return Ok(u.Hobbies);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
-                return BadRequest(e);
+                return BadRequest(e.Message);
             }
         }
         // [HttpPost]
@@ -100,7 +100,7 @@ namespace TalktifAPI.Controllers
                 return Ok(r);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
-                return Unauthorized();
+                return BadRequest(e.Message);
             }
         }
         [HttpGet]
@@ -110,7 +110,7 @@ namespace TalktifAPI.Controllers
                 return Ok(_service.GetAllCountry());
             }catch(Exception e){
                 Console.WriteLine(e.Message);
-                return Unauthorized();
+                return BadRequest(e.Message);
             }
         }
         [HttpGet]
@@ -120,7 +120,7 @@ namespace TalktifAPI.Controllers
                 return Ok(_service.GettCityByCountry(id));
             }catch(Exception e){
                 Console.WriteLine(e.Message);
-                return Unauthorized();
+                return BadRequest(e.Message);
             }
         }
         [HttpPost]
@@ -170,7 +170,7 @@ namespace TalktifAPI.Controllers
             return Ok(response);
             }catch(Exception e){
                 Console.Write(e.Message);
-                return Unauthorized();
+                return BadRequest(e.Message);
             }
         }
         [HttpPost("Report")]
@@ -182,7 +182,7 @@ namespace TalktifAPI.Controllers
             return Ok();
             }catch(Exception e){
                 Console.Write(e.Message);
-                return Unauthorized();
+                return BadRequest(e.Message);
             }
         }
         private void setTokenCookie(string token,int id)

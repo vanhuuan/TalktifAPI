@@ -99,7 +99,7 @@ namespace TalktifAPI.Service
         public LoginRespond signIn(LoginRequest user)
         { 
             User read = _userService.GetUserByEmail(user.Email);
-            if(read==null) throw new Exception();
+            if(read==null) throw new Exception("Wrong PassWord");
             if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true && read.ConfirmedEmail==true){
                 string token = _jwtService.GenerateSecurityToken((bool)read.IsAdmin);
                 string refreshtoken = _jwtService.GenerateRefreshToken((bool)read.IsAdmin);

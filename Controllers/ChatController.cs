@@ -29,7 +29,7 @@ namespace TalktifAPI.Controllers
                 return Ok(respond);
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"createchatroom err");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
         [HttpPost]   
@@ -43,7 +43,7 @@ namespace TalktifAPI.Controllers
                 else return BadRequest();
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"createchatroom err");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
 
@@ -58,7 +58,7 @@ namespace TalktifAPI.Controllers
                 else return BadRequest();
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"fecth err");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         } 
         [HttpPost]   
@@ -72,13 +72,13 @@ namespace TalktifAPI.Controllers
                 else return BadRequest();
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"\n get info err");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
         [HttpPost]   
         [Authorize]     
         [Route("AddMessage")]
-        public ActionResult<GetChatRoomInfoRespond> AddMessage(AddMessageRequest mess)
+        public ActionResult AddMessage(AddMessageRequest mess)
         {
             try{
                 bool check =_service.AddMessage(mess);
@@ -88,7 +88,7 @@ namespace TalktifAPI.Controllers
                 else return BadRequest();
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"\n get info err");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
         [HttpDelete]   
@@ -104,7 +104,7 @@ namespace TalktifAPI.Controllers
                 else return BadRequest();
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"\n delete err");
-                return BadRequest();
+                return BadRequest(e.Message);
             }
         }
     }
