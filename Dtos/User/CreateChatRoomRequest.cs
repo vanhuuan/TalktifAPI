@@ -9,6 +9,5 @@ namespace TalktifAPI.Dtos
         public string User1NickName { get; set; }
         public string User2NickName { get; set; }
         public int User2Id { get; set; }
-        public DateTime Create { get; set; }  
     }
 }
