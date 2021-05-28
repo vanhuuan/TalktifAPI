@@ -63,6 +63,7 @@ namespace TalktifAPI.Service
                     User = r.User2Id
                 });
             i.ChatRoomName=r.User1NickName+ " and "+r.User2NickName;
+            _chatRoomRepository.Update(i);
             return new CreateChatRoomRespond{
                 RoomId = i.Id,
                 RoomName = i.ChatRoomName,
