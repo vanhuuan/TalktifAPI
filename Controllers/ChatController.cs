@@ -19,7 +19,7 @@ namespace TalktifAPI.Controllers
         {
             _service = service;
         }
-        [HttpGet]   
+        [HttpPost]   
         [Authorize]     
         [Route("CreateChatRoom")]
         public ActionResult Create(CreateChatRoomRequest createChatRoom)
@@ -32,7 +32,7 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost]   
+        [HttpGet]   
         [Authorize]     
         [Route("FetchAllChatRoom/{userid}")]
         public ActionResult<List<FetchAllChatRoomRespond>> FetchAllChatRoom(int userid)
@@ -47,7 +47,7 @@ namespace TalktifAPI.Controllers
             }
         }
 
-        [HttpPost]   
+        [HttpGet]   
         [Authorize]     
         [Route("FetchMessage")]
         public ActionResult<List<MessageRespond>> FecthMessage(FetchMessageRequest request)
@@ -61,7 +61,7 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         } 
-        [HttpPost]   
+        [HttpGet]   
         [Authorize]     
         [Route("GetChatRoomInfo")]
         public ActionResult<GetChatRoomInfoRespond> GetChatRoomInfo(GetChatRoomInfoRequest room)

@@ -103,7 +103,7 @@ namespace TalktifAPI.Controllers
         }
         [Authorize(Role.Admin)]
         [HttpDelete]
-        [Route("UpdateNonReferenceChatRoom")]
+        [Route("DeleteNonReferenceChatRoom")]
         public ActionResult DeleteNonReferenceChatRoom()
         {
             try{
