@@ -92,7 +92,7 @@ namespace TalktifAPI.Controllers
         //         return Unauthorized(e);
         //     }
         // }
-        [HttpGet]
+        [HttpPost]
         [Route("ResetPasswordEmail")]
         public ActionResult<ReadUserDto> ResetPasswordEmail(ResetPassEmailRequest request){
             try{
