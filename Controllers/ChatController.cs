@@ -68,8 +68,7 @@ namespace TalktifAPI.Controllers
         {
             try{
                 GetChatRoomInfoRespond g =_service.GetChatRoomInfo(room);
-                if(g!=null) return Ok(g);
-                else return BadRequest();
+                return Ok(g);
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"\n get info err");
                 return BadRequest(e.Message);
