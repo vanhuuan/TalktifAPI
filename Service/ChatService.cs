@@ -118,14 +118,23 @@ namespace TalktifAPI.Service
         public GetChatRoomInfoRespond GetChatRoomInfo(GetChatRoomInfoRequest room)
         {
             UserChatRoom[] list = _userChatRoomRepository.GetAllChatRoomMember(room.Id);
-            Console.Write(list.Length);
-            GetChatRoomInfoRespond r = new GetChatRoomInfoRespond{
-                NickName1 = list[0].NickName,
-                User1Id = list[0].User,
-                NickName2 = list[1].NickName,
-                User2Id = list[1].User
-            };
-            return r;
+            if(list.Length>1){
+                GetChatRoomInfoRespond r = new GetChatRoomInfoRespond{
+                    NickName1 = list[0].NickName,
+                    User1Id = list[0].User,
+                    NickName2 = list[1].NickName,
+                    User2Id = list[1].User
+                };
+                return r;
+            }else{
+                GetChatRoomInfoRespond r = new GetChatRoomInfoRespond{
+                    NickName1 = list[0].NickName,
+                    User1Id = list[0].User,
+                    NickName2 = "Unknown",
+                    User2Id = 0
+                };
+                return r;
+            }
         }
     }
 }
