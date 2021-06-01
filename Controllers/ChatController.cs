@@ -98,10 +98,13 @@ namespace TalktifAPI.Controllers
         }
         [HttpDelete]   
         [Authorize]     
-        [Route("Delete")]
-        public ActionResult<GetChatRoomInfoRespond> DeleteFriend(DeleteFriendRequest mess)
+        [Route("Delete/{userid}/{roomid")]
+        public ActionResult<GetChatRoomInfoRespond> DeleteFriend(int userid,int roomid)
         {
             try{
+                DeleteFriendRequest mess = new DeleteFriendRequest{
+                    UserId = userid, RoomId = roomid
+                };
                 bool check =_service.DeleteChatRoom(mess);
                 if( check!=false ){
                     return Ok();
