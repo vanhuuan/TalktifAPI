@@ -37,11 +37,14 @@ namespace TalktifAPI.Controllers
         }
         [Authorize(Role.Admin)]
         [HttpGet]
-        [Route("GetAllUser")]
-        public ActionResult<List<ReadUserDto>> getAllUser(GetAllUserRequest request)
+        [Route("GetAllUser/{from}/{to}/{orderby}")]
+        public ActionResult<List<ReadUserDto>> getAllUser(int from,int to,String  orderby)
         {
             try{
-            return Ok(_adminService.GetAllUser(request));
+                GetAllUserRequest request = new GetAllUserRequest{
+                    From = from, To = to, OderBy = orderby
+                };
+                return Ok(_adminService.GetAllUser(request));
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 return BadRequest(e.Message);
@@ -49,11 +52,14 @@ namespace TalktifAPI.Controllers
         }
         [Authorize(Role.Admin)]
         [HttpGet]
-        [Route("GetAllReport")]
-        public ActionResult<List<GetReportRespond>> getAllReport(GetAllReportRequest request)
+        [Route("GetAllReport/{from}/{to}/{orderby}")]
+        public ActionResult<List<GetReportRespond>> getAllReport(int from,int to,String  orderby)
         {
             try{
-            return Ok(_adminService.GetAllReport(request));
+                GetAllReportRequest request = new GetAllReportRequest{
+                    From = from, To = to, OderBy = orderby
+                };
+                return Ok(_adminService.GetAllReport(request));
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 return BadRequest(e.Message);
