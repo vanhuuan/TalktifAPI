@@ -49,10 +49,13 @@ namespace TalktifAPI.Controllers
 
         [HttpGet]   
         [Authorize]     
-        [Route("FetchMessage")]
-        public ActionResult<List<MessageRespond>> FecthMessage(FetchMessageRequest request)
+        [Route("FetchMessage/{roomid}/{top}")]
+        public ActionResult<List<MessageRespond>> FecthMessage(int roomid,int top)
         {
             try{
+                FetchMessageRequest request = new FetchMessageRequest{
+                    RoomId = roomid, Top = top
+                };
                 List<MessageRespond> list =_service.FecthAllMessageInChatRoom(request);
                 if(list!=null) return Ok(list);
                 else return BadRequest();
@@ -63,10 +66,13 @@ namespace TalktifAPI.Controllers
         } 
         [HttpGet]   
         [Authorize]     
-        [Route("GetChatRoomInfo")]
-        public ActionResult<GetChatRoomInfoRespond> GetChatRoomInfo(GetChatRoomInfoRequest room)
+        [Route("GetChatRoomInfo/{id}/{userid}")]
+        public ActionResult<GetChatRoomInfoRespond> GetChatRoomInfo(int id,int userid)
         {
             try{
+                GetChatRoomInfoRequest room = new GetChatRoomInfoRequest {
+                    Id = id, UserId = userid
+                };
                 GetChatRoomInfoRespond g =_service.GetChatRoomInfo(room);
                 return Ok(g);
             }catch(Exception e){
