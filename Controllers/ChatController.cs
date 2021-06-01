@@ -98,7 +98,7 @@ namespace TalktifAPI.Controllers
         }
         [HttpDelete]   
         [Authorize]     
-        [Route("Delete/{userid}/{roomid")]
+        [Route("Delete/{userid}/{roomid}")]
         public ActionResult<GetChatRoomInfoRespond> DeleteFriend(int userid,int roomid)
         {
             try{
