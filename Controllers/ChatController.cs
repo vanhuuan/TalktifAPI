@@ -105,11 +105,8 @@ namespace TalktifAPI.Controllers
                 DeleteFriendRequest mess = new DeleteFriendRequest{
                     UserId = userid, RoomId = roomid
                 };
-                bool check =_service.DeleteChatRoom(mess);
-                if( check!=false ){
-                    return Ok();
-                }
-                else return BadRequest();
+                _service.DeleteChatRoom(mess);
+                return Ok();
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"\n delete err");
                 return BadRequest(e.Message);

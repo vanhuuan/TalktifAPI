@@ -70,27 +70,17 @@ namespace TalktifAPI.Service
             };
         }
 
-        public bool DeleteChatRoom(DeleteFriendRequest room)
+        public void DeleteChatRoom(DeleteFriendRequest room)
         {
-            try{
-                ChatRoom c =_chatRoomRepository.GetById(room.RoomId);
-                UserChatRoom cr1 = _userChatRoomRepository.GetUserChatRoomByFK(room.UserId,room.RoomId);
-                _userChatRoomRepository.Delete(cr1);
-                c.NumOfMember--;
-                if(c.NumOfMember == 0) {
-                    _chatRoomRepository.Delete(c);
-                }else {
-                _chatRoomRepository.Update(c);
-                }
-                return true;
-            }catch(NullReferenceException e){
-                Console.WriteLine(e.Message+"\n Delete ChatRoom");
-                return false;
-            }catch(Exception e){
-                Console.WriteLine(e.Message);
-                return false;
-            }
-            
+            ChatRoom c =_chatRoomRepository.GetById(room.RoomId);
+            UserChatRoom cr1 = _userChatRoomRepository.GetUserChatRoomByFK(room.UserId,room.RoomId);
+            _userChatRoomRepository.Delete(cr1);
+            c.NumOfMember--;
+            if(c.NumOfMember == 0) {
+                _chatRoomRepository.Delete(c);
+            }else {
+            _chatRoomRepository.Update(c);
+            }      
         }
 
         public List<MessageRespond> FecthAllMessageInChatRoom(FetchMessageRequest request)
