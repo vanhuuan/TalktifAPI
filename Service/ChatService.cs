@@ -77,7 +77,11 @@ namespace TalktifAPI.Service
                 UserChatRoom cr1 = _userChatRoomRepository.GetUserChatRoomByFK(room.UserId,room.RoomId);
                 _userChatRoomRepository.Delete(cr1);
                 c.NumOfMember--;
+                if(c.NumOfMember == 0) {
+                    _chatRoomRepository.Delete(c);
+                }else {
                 _chatRoomRepository.Update(c);
+                }
                 return true;
             }catch(NullReferenceException e){
                 Console.WriteLine(e.Message+"\n Delete ChatRoom");

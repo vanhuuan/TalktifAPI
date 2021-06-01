@@ -74,7 +74,7 @@ namespace TalktifAPI.Controllers
             }
         }
         [Authorize(Role.Admin)]
-        [HttpPost]
+        [HttpPut]
         [Route("UpdateUser")]
         public ActionResult UpdateUser(UpdateUserRequest request)
         {

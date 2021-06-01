@@ -74,7 +74,8 @@ namespace TalktifAPI.Service
             User[] a = read.ToArray();           
             for(int i=count - request.From;i<count - request.To;i++){
                 list.Add(new ReadUserDto{
-                    Email =  a[i].Email, Name =  a[i].Name, Id =  a[i].Id 
+                    Email =  a[i].Email, Name =  a[i].Name, Id =  a[i].Id , Hobbies = a[i].Hobbies,
+                    IsActive = a[i].IsActive, IsAdmin = a[i].IsAdmin, CityId = a[i].CityId
                 });
             }
             return list;
@@ -111,6 +112,7 @@ namespace TalktifAPI.Service
                 read.Email = request.Email;
                 read.Gender = request.Gender;
                 read.Hobbies = request.Hobbies;
+                read.CityId = request.CityId;
                 _userRepository.Update(read);
                 return true;
             }

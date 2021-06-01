@@ -10,5 +10,6 @@ namespace TalktifAPI.Dtos.Admin
         public string Email { get; set; }
         public bool? Gender { get; set; }
         public string Hobbies { get; set; }
+        public int CityId { get; set; }
     }
 }

@@ -86,7 +86,7 @@ namespace TalktifAPI.Controllers
                 }
                 else return BadRequest();
             }catch(Exception e){
-                Console.WriteLine(e.ToString()+"\n get info err");
+                Console.WriteLine(e.ToString()+"\n add message err");
                 return BadRequest(e.Message);
             }
         }
