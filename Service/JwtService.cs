@@ -57,7 +57,7 @@ namespace TalktifAPI.Service
                     new Claim(ClaimTypes.Role, IsAdmin==true?"Admin":"User")  
                 }),  
                 IssuedAt = DateTime.Now,
-                Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),  
+                Expires = DateTime.UtcNow.AddHours(double.Parse(_expDate)),  
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)  
             };   
             var token = tokenHandler.CreateToken(tokenDescriptor);  
