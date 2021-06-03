@@ -157,7 +157,7 @@ namespace TalktifAPI.Controllers
                 return NotFound(e.Message);
             }
         }
-        [HttpPost("Refresh-Token")]
+        [HttpPost("RefreshToken")]
         public IActionResult RefreshToken(RefreshTokenRequest request)
         {
             try{
