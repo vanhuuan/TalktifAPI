@@ -55,14 +55,14 @@ namespace TalktifAPI.Service
             return true;
         }
 
-        public RefreshTokenRespond RefreshToken(ReFreshToken token)
+        public RefreshTokenRespond RefreshToken(ReFreshToken token,int id)
         {
             try{
             if(!_jwtService.ValidRefreshToken(new UserRefreshToken{
                 Id = token.Id, 
                 RefreshToken =  token.RefreshToken
-            })) throw new SecurityTokenExpiredException();  
-            var jwtToken = _jwtService.GenerateSecurityToken(_jwtService.GetRole(token.RefreshToken));
+            },id)) throw new SecurityTokenExpiredException();  
+            var jwtToken = _jwtService.GenerateSecurityToken(_jwtService.GetId(token.RefreshToken));
             return new RefreshTokenRespond{
                 Token = jwtToken
             };
@@ -92,7 +92,7 @@ namespace TalktifAPI.Service
             }
             user.Password = BC.HashPassword(newpass);
             _userService.Update(user);
-            var jwtToken = _jwtService.GenerateSecurityToken((bool)user.IsAdmin);
+            var jwtToken = _jwtService.GenerateSecurityToken(user.Id);
             return new LoginRespond(getInfoById(user.Id), jwtToken, null,0);
         }
 
@@ -101,7 +101,7 @@ namespace TalktifAPI.Service
             User read = _userService.GetUserByEmail(user.Email);
             if(read==null) throw new Exception("Wrong Email");
             if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true && read.ConfirmedEmail==true){
-                string token = _jwtService.GenerateSecurityToken((bool)read.IsAdmin);
+                string token = _jwtService.GenerateSecurityToken(read.Id);
                 string refreshtoken = _jwtService.GenerateRefreshToken((bool)read.IsAdmin);
                 _tokenService.Insert(new UserRefreshToken{
                     User = read.Id,RefreshToken = refreshtoken,
@@ -118,20 +118,20 @@ namespace TalktifAPI.Service
         {
             User read = _userService.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"+ read.Id); 
-            _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.Hobbies,user.CityId));
+            _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
+                                user.Gender,user.Hobbies,user.CityId));
             read = _userService.GetUserByEmail(user.Email);
-        
-            string token = _jwtService.GenerateSecurityToken((bool)false);
+            string token = _jwtService.GenerateSecurityToken(read.Id);
             string refreshtoken = _jwtService.GenerateRefreshToken((bool)read.IsAdmin);
             _tokenService.Insert(new UserRefreshToken{
                 User = read.Id,RefreshToken = refreshtoken,
                 CreateAt = DateTime.Now,Device = user.Device});
             UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
-                                                        Name = user.Name,IsAdmin = read.IsAdmin, 
-                                                        Gender= user.Gender, Hobbies = user.Hobbies, CityId = user.CityId }, token,refreshtoken,refreshToken.Id);
+                                        Name = user.Name,IsAdmin = read.IsAdmin, 
+                                        Gender= user.Gender, Hobbies = user.Hobbies, CityId = user.CityId },
+                                        token,refreshtoken,refreshToken.Id);
         }
-
         public ReadUserDto updateInfo(UpdateInfoRequest user)
         {
             if(user==null || !isUserExists(user.Id)) throw new Exception("Not found");

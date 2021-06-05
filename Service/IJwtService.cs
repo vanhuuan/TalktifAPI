@@ -4,10 +4,10 @@ namespace TalktifAPI.Service
 {
     public interface IJwtService
     {
-        string GenerateSecurityToken(bool IdAdmin);
+        string GenerateSecurityToken(int id);
         string GenerateRefreshToken(bool IdAdmin);
-        bool ValidRefreshToken(UserRefreshToken token);
+        bool ValidRefreshToken(UserRefreshToken token,int id);
         bool ValidSecurityToken(string token);
-        bool GetRole(string token);
+        int GetId(string token);
     }
 }

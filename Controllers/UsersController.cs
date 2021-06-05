@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using TalktifAPI.Service;
 using TalktifAPI.Dtos.User;
+using System.Linq;
 
 namespace TalktifAPI.Controllers
 {
@@ -19,11 +20,13 @@ namespace TalktifAPI.Controllers
     {
         private readonly IUserService _service;
         private readonly IEmailService _emailService;
+        private readonly IJwtService _jwtService;
 
-        public UsersController(IUserService service,IEmailService emailService)
+        public UsersController(IUserService service,IEmailService emailService,IJwtService jwtService)
         {
             _service = service;
             _emailService = emailService;
+            _jwtService = jwtService;
         }
         [HttpPost]        
         [Route("SignUp")]
@@ -129,6 +132,7 @@ namespace TalktifAPI.Controllers
         public ActionResult<ReadUserDto> getUserInfo(int id)
         {
             try{
+                CheckId(id);
                 return Ok(_service.getInfoById(id));
             }catch(Exception e){
                 Console.WriteLine(e.Message);
@@ -140,6 +144,7 @@ namespace TalktifAPI.Controllers
         [Route("UpdateInfo")]
         public ActionResult<ReadUserDto> updateUserInfo(UpdateInfoRequest update){
             try{
+                CheckId(update.Id);
                 return _service.updateInfo(update);
             }catch(Exception e){
                 return NotFound(e.Message);
@@ -150,6 +155,7 @@ namespace TalktifAPI.Controllers
         [Route("InActiveUser/{id}")]
         public ActionResult InActiveUser (int id){
             try{
+                CheckId(id);
                 _service.inActiveUser(id);
                 return Ok();
             }catch(Exception e){
@@ -161,12 +167,12 @@ namespace TalktifAPI.Controllers
         public IActionResult RefreshToken(RefreshTokenRequest request)
         {
             try{
-            var refreshToken = Request.Cookies["RefreshToken"].ToString();
-            var refreshTokenId = Request.Cookies["RefreshTokenId"].ToString();
-            var response = _service.RefreshToken(new ReFreshToken{
+                var refreshToken = Request.Cookies["RefreshToken"].ToString();
+                var refreshTokenId = Request.Cookies["RefreshTokenId"].ToString();
+                var response = _service.RefreshToken(new ReFreshToken{
                     Id = Convert.ToInt32(refreshTokenId),
                     RefreshToken = refreshToken
-            });
+                },GetId());
             return Ok(response);
             }catch(Exception e){
                 Console.Write(e.Message);
@@ -178,8 +184,9 @@ namespace TalktifAPI.Controllers
         public IActionResult Report(ReportRequest request)
         {
             try{
-            var respond = _service.Report(request);
-            return Ok();
+                CheckId(request.Reporter);
+                var respond = _service.Report(request);
+                return Ok();
             }catch(Exception e){
                 Console.Write(e.Message);
                 return BadRequest(e.Message);
@@ -194,6 +201,13 @@ namespace TalktifAPI.Controllers
             };
             Response.Cookies.Append("RefreshToken", token, cookieOptions);
             Response.Cookies.Append("RefreshTokenId", id.ToString(), cookieOptions);
+        }
+        public int GetId(){
+            String token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            return _jwtService.GetId(token);
+        }
+        public void CheckId(int id){
+            if(GetId()!=id) throw new Exception("You don't have permission to do this action");
         }
     }
 }

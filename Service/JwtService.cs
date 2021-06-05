@@ -46,7 +46,7 @@ namespace TalktifAPI.Service
             return tokenHandler.WriteToken(token);  
         }
 
-        public string GenerateSecurityToken(bool IsAdmin)  
+        public string GenerateSecurityToken(int id)  
         {  
             var tokenHandler = new JwtSecurityTokenHandler();  
             var key = Encoding.ASCII.GetBytes(_secret);  
@@ -54,7 +54,7 @@ namespace TalktifAPI.Service
             {  
                 Subject = new ClaimsIdentity(new[]  
                 {  
-                    new Claim(ClaimTypes.Role, IsAdmin==true?"Admin":"User")  
+                    new Claim(ClaimTypes.Email, id.ToString())  
                 }),  
                 IssuedAt = DateTime.Now,
                 Expires = DateTime.UtcNow.AddHours(double.Parse(_expDate)),  
@@ -64,19 +64,19 @@ namespace TalktifAPI.Service
             return tokenHandler.WriteToken(token);  
         }
 
-        public bool GetRole(string token)
+        public int GetId(string token)
         {
             try{
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                return jwtToken.Claims.FirstOrDefault(claim => claim.Type == "role").Value == "Admin"?true:false;
+                return Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email").Value);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 throw new Exception(e.Message);
             }
         }
 
-        public bool ValidRefreshToken(UserRefreshToken token)
+        public bool ValidRefreshToken(UserRefreshToken token,int id)
         {
             try
             {
@@ -89,8 +89,9 @@ namespace TalktifAPI.Service
                     ValidateIssuer = false,
                     ValidateAudience = false,
                     ValidateLifetime = true
-                }, out SecurityToken validatedRefreshToken);            
-                if(_context.GetById(token.Id)==null) throw new Exception("Token doesn't exist");
+                }, out SecurityToken validatedRefreshToken);     
+                var t = _context.GetById(token.Id);       
+                if(t==null||t.User!=id) throw new Exception("Token doesn't exist");
                 return true;
             }catch(SecurityTokenExpiredException e)
             {

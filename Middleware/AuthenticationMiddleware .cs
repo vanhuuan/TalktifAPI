@@ -42,8 +42,10 @@ namespace TalktifAPI.Middleware
                 jwtService.ValidSecurityToken(token);
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                string role = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "role").Value;
-                context.Items["IsAdmin"] = role=="Admin"?1:0;
+                int id = jwtService.GetId(token);          
+                var user = userRepo.getInfoById(id);
+                Console.WriteLine("12");
+                context.Items["IsAdmin"] = user.IsAdmin==true?1:0;
                 context.Items["TokenExp"] = false; 
             }
             catch(SecurityTokenExpiredException err)

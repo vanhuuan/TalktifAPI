@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TalktifAPI.Dtos;
 using TalktifAPI.Dtos.Message;
@@ -14,10 +15,12 @@ namespace TalktifAPI.Controllers
     public class ChatController : ControllerBase
     {
         private readonly IChatService _service;
+        private readonly IJwtService _jwtService;
 
-        public ChatController(IChatService service)
+        public ChatController(IChatService service,IJwtService jwtService)
         {
             _service = service;
+            _jwtService = jwtService;
         }
         [HttpPost]   
         [Authorize]     
@@ -25,6 +28,7 @@ namespace TalktifAPI.Controllers
         public ActionResult Create(CreateChatRoomRequest createChatRoom)
         {
             try{
+                CheckId(createChatRoom.User1Id);
                 CreateChatRoomRespond respond =_service.CreateChatRoom(createChatRoom);
                 return Ok(respond);
             }catch(Exception e){
@@ -38,6 +42,7 @@ namespace TalktifAPI.Controllers
         public ActionResult<List<FetchAllChatRoomRespond>> FetchAllChatRoom(int userid)
         {
             try{
+                CheckId(userid);
                 List<FetchAllChatRoomRespond> list =_service.FetchAllChatRoom(userid);
                 if(list!=null) return Ok(list);
                 else return BadRequest();
@@ -49,10 +54,11 @@ namespace TalktifAPI.Controllers
 
         [HttpGet]   
         [Authorize]     
-        [Route("FetchMessage/{roomid}/{top}")]
-        public ActionResult<List<MessageRespond>> FecthMessage(int roomid,int top)
+        [Route("FetchMessage/{userid}/{roomid}/{top}")]
+        public ActionResult<List<MessageRespond>> FecthMessage(int userid,int roomid,int top)
         {
             try{
+                CheckId(userid);
                 FetchMessageRequest request = new FetchMessageRequest{
                     RoomId = roomid, Top = top
                 };
@@ -70,6 +76,7 @@ namespace TalktifAPI.Controllers
         public ActionResult<GetChatRoomInfoRespond> GetChatRoomInfo(int id,int userid)
         {
             try{
+                CheckId(userid);
                 GetChatRoomInfoRequest room = new GetChatRoomInfoRequest {
                     Id = id, UserId = userid
                 };
@@ -86,6 +93,7 @@ namespace TalktifAPI.Controllers
         public ActionResult AddMessage(AddMessageRequest mess)
         {
             try{
+                CheckId(mess.IdSender);
                 bool check =_service.AddMessage(mess);
                 if( check!=false ){
                     return Ok();
@@ -102,6 +110,7 @@ namespace TalktifAPI.Controllers
         public ActionResult<GetChatRoomInfoRespond> DeleteFriend(int userid,int roomid)
         {
             try{
+                CheckId(userid);
                 DeleteFriendRequest mess = new DeleteFriendRequest{
                     UserId = userid, RoomId = roomid
                 };
@@ -111,6 +120,13 @@ namespace TalktifAPI.Controllers
                 Console.WriteLine(e.ToString()+"\n delete err");
                 return BadRequest(e.Message);
             }
+        }
+        public int GetId(){
+            String token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            return _jwtService.GetId(token);
+        }
+        public void CheckId(int id){
+            if(GetId()!=id) throw new Exception("You don't have permission to do this action");
         }
     }
 }
