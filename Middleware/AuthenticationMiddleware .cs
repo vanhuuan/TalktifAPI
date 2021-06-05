@@ -44,7 +44,6 @@ namespace TalktifAPI.Middleware
                 JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
                 int id = jwtService.GetId(token);          
                 var user = userRepo.getInfoById(id);
-                Console.WriteLine("12");
                 context.Items["IsAdmin"] = user.IsAdmin==true?1:0;
                 context.Items["TokenExp"] = false; 
             }
