@@ -11,6 +11,11 @@ namespace TalktifAPI.Repository
         {
         }
 
+        public int GetLastIdToken()
+        {
+            return Entities.OrderByDescending(p => p.CreateAt).FirstOrDefault().Id;
+        }
+
         public UserRefreshToken GetTokenByToken(int userid)
         {
             return Entities.Where(p => p.User == userid).OrderByDescending(p => p.CreateAt).FirstOrDefault();

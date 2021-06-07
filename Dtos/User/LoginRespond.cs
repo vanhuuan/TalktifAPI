@@ -23,13 +23,7 @@ namespace TalktifAPI.Dtos
         public int CityId { get; set; }
         [Required]
         public string Token {get; set;}
-        [Required]
-        [JsonIgnore]
-        public string RefreshToken {get; set;}
-        [Required]
-        [JsonIgnore]
-        public int RefreshTokenId {get; set;}
-        public LoginRespond(ReadUserDto user , string token,string refreshtoken,int refreshTokenid)
+        public LoginRespond(ReadUserDto user , string token)
         {
             Id = user.Id;
             Name = user.Name;
@@ -40,8 +34,6 @@ namespace TalktifAPI.Dtos
             CityId = user.CityId;
             IsActive = user.IsActive;
             Token = token;
-            RefreshToken = refreshtoken;
-            RefreshTokenId = refreshTokenid;
         }
     }
 }

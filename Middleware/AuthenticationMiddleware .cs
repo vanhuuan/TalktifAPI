@@ -39,7 +39,7 @@ namespace TalktifAPI.Middleware
         {
             try
             {
-                jwtService.ValidSecurityToken(token);
+                jwtService.ValidRefreshToken(token);
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
                 int id = jwtService.GetId(token);          

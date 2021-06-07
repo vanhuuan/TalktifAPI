@@ -16,9 +16,9 @@ namespace TalktifAPI.Service
         private readonly string _secret2;
         private readonly string _expDate;
         private readonly string _expMonth;
-        private readonly IGenericRepository<UserRefreshToken> _context;
+        private readonly IUserRefreshTokenRepository _context;
 
-        public JwtService(IConfiguration config,IGenericRepository<UserRefreshToken> context)  
+        public JwtService(IConfiguration config,IUserRefreshTokenRepository context)  
         {  
             _secret = config.GetSection("JwtConfig").GetSection("secret").Value;  
             _secret2 = config.GetSection("JwtConfig").GetSection("secret2").Value;  
@@ -27,15 +27,17 @@ namespace TalktifAPI.Service
             _context = context;
         }
 
-        public string GenerateRefreshToken(bool IsAdmin)
+        public string GenerateRefreshToken(int user)
         {
+            int id = _context.GetLastIdToken(); id++;
             var tokenHandler = new JwtSecurityTokenHandler();  
             var key = Encoding.ASCII.GetBytes(_secret2);  
             var tokenDescriptor = new SecurityTokenDescriptor  
             {    
                 Subject = new ClaimsIdentity(new[]  
                 {  
-                    new Claim(ClaimTypes.Role, IsAdmin==true?"Admin":"User")  
+                    new Claim(ClaimTypes.Email, id.ToString()), 
+                    new Claim(ClaimTypes.Name, user.ToString())  
                 }),  
                 IssuedAt = DateTime.Now,
                 Expires = DateTime.UtcNow.AddMonths(Int32.Parse(_expMonth)),  
@@ -69,18 +71,24 @@ namespace TalktifAPI.Service
             try{
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jwtToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
-                return Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email").Value);
+                return Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "unique_name").Value);
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 throw new Exception(e.Message);
             }
         }
 
-        public bool ValidRefreshToken(UserRefreshToken token,int id)
+        public bool ValidRefreshToken(String _token)
         {
             try
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
+                JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+                JwtSecurityToken jwtToken = tokenHandler.ReadToken(_token) as JwtSecurityToken;
+                UserRefreshToken token = new UserRefreshToken{
+                    RefreshToken = _token,
+                    Id = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email").Value),
+                    User = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "unique_name").Value)
+                };
                 var key = Encoding.ASCII.GetBytes(_secret2);
                 tokenHandler.ValidateToken(token.RefreshToken, new TokenValidationParameters
                 {
@@ -91,7 +99,7 @@ namespace TalktifAPI.Service
                     ValidateLifetime = true
                 }, out SecurityToken validatedRefreshToken);     
                 var t = _context.GetById(token.Id);       
-                if(t==null||t.User!=id) throw new Exception("Token doesn't exist");
+                if(t==null||t.User!=token.User||String.Compare(t.RefreshToken,_token)!=0) throw new Exception("Token doesn't exist");
                 return true;
             }catch(SecurityTokenExpiredException e)
             {

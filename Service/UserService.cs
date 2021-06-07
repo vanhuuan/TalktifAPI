@@ -58,10 +58,7 @@ namespace TalktifAPI.Service
         public RefreshTokenRespond RefreshToken(ReFreshToken token,int id)
         {
             try{
-            if(!_jwtService.ValidRefreshToken(new UserRefreshToken{
-                Id = token.Id, 
-                RefreshToken =  token.RefreshToken
-            },id)) throw new SecurityTokenExpiredException();  
+            if(!_jwtService.ValidRefreshToken(token.RefreshToken)) throw new SecurityTokenExpiredException();  
             var jwtToken = _jwtService.GenerateSecurityToken(_jwtService.GetId(token.RefreshToken));
             return new RefreshTokenRespond{
                 Token = jwtToken
@@ -92,8 +89,8 @@ namespace TalktifAPI.Service
             }
             user.Password = BC.HashPassword(newpass);
             _userService.Update(user);
-            var jwtToken = _jwtService.GenerateSecurityToken(user.Id);
-            return new LoginRespond(getInfoById(user.Id), jwtToken, null,0);
+            var jwtToken = _jwtService.GenerateRefreshToken(user.Id);
+            return new LoginRespond(getInfoById(user.Id), jwtToken);
         }
 
         public LoginRespond signIn(LoginRequest user)
@@ -101,15 +98,14 @@ namespace TalktifAPI.Service
             User read = _userService.GetUserByEmail(user.Email);
             if(read==null) throw new Exception("Wrong Email");
             if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true && read.ConfirmedEmail==true){
-                string token = _jwtService.GenerateSecurityToken(read.Id);
-                string refreshtoken = _jwtService.GenerateRefreshToken((bool)read.IsAdmin);
+                string token = _jwtService.GenerateRefreshToken(read.Id);
                 _tokenService.Insert(new UserRefreshToken{
-                    User = read.Id,RefreshToken = refreshtoken,
+                    User = read.Id,RefreshToken = token,
                     CreateAt = DateTime.Now,Device = user.Device});
                 UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
                 return new LoginRespond(new ReadUserDto { Email = read.Email, Name = read.Name,
                                                         Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
-                                                        Hobbies = read.Hobbies,  CityId = read.CityId , IsActive = read.IsActive }, token,refreshtoken,refreshToken.Id);
+                                                        Hobbies = read.Hobbies,  CityId = read.CityId , IsActive = read.IsActive }, token);
             }
             throw new Exception("Wrong Password");
         }
@@ -121,16 +117,15 @@ namespace TalktifAPI.Service
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
                                 user.Gender,user.Hobbies,user.CityId));
             read = _userService.GetUserByEmail(user.Email);
-            string token = _jwtService.GenerateSecurityToken(read.Id);
-            string refreshtoken = _jwtService.GenerateRefreshToken((bool)read.IsAdmin);
+            string token = _jwtService.GenerateRefreshToken(read.Id);
             _tokenService.Insert(new UserRefreshToken{
-                User = read.Id,RefreshToken = refreshtoken,
+                User = read.Id,RefreshToken = token,
                 CreateAt = DateTime.Now,Device = user.Device});
             UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                         Name = user.Name,IsAdmin = read.IsAdmin, 
                                         Gender= user.Gender, Hobbies = user.Hobbies, CityId = user.CityId },
-                                        token,refreshtoken,refreshToken.Id);
+                                        token);
         }
         public ReadUserDto updateInfo(UpdateInfoRequest user)
         {
@@ -160,7 +155,7 @@ namespace TalktifAPI.Service
         public bool CheckToken(string token, int id)
         {
             UserRefreshToken t = _tokenService.GetById(id);
-            if( t!= null && token.Equals(t.RefreshToken)) return true;
+            if( t!= null && String.Compare(t.RefreshToken,token)==0) return true;
             return false;
         }
 

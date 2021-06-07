@@ -41,7 +41,7 @@ namespace TalktifAPI.Controllers
                 // };
                 // Console.WriteLine(content.Body);
                 // _emailService.SendMail(content);
-                if(r!=null) setTokenCookie(r.RefreshToken,r.RefreshTokenId);
+                //if(r!=null) setTokenCookie(r.RefreshToken,r.RefreshTokenId);
                 return Ok(r);
             }catch(Exception e){
                 Console.WriteLine(e.ToString());
@@ -54,7 +54,7 @@ namespace TalktifAPI.Controllers
         {
             try{
                 LoginRespond r = _service.signIn(user);
-                if(r!=null) setTokenCookie(r.RefreshToken,r.RefreshTokenId);
+                //if(r!=null) setTokenCookie(r.RefreshToken,r.RefreshTokenId);
                 return Ok(r);
             }catch(Exception e){
                  Console.WriteLine(e.ToString());
@@ -192,16 +192,16 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        private void setTokenCookie(string token,int id)
-        {
-            var cookieOptions = new CookieOptions
-            {
-                HttpOnly = true,
-                Expires = DateTime.UtcNow.AddMonths(1)
-            };
-            Response.Cookies.Append("RefreshToken", token, cookieOptions);
-            Response.Cookies.Append("RefreshTokenId", id.ToString(), cookieOptions);
-        }
+        // private void setTokenCookie(string token,int id)
+        // {
+        //     var cookieOptions = new CookieOptions
+        //     {
+        //         HttpOnly = true,
+        //         Expires = DateTime.UtcNow.AddMonths(1)
+        //     };
+        //     Response.Cookies.Append("RefreshToken", token, cookieOptions);
+        //     Response.Cookies.Append("RefreshTokenId", id.ToString(), cookieOptions);
+        // }
         public int GetId(){
             String token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             return _jwtService.GetId(token);
