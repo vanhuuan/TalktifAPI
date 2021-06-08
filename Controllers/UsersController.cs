@@ -126,7 +126,7 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost]
+        [HttpGet]
         [Authorize]
         [Route("{id}")]
         public ActionResult<ReadUserDto> getUserInfo(int id)
