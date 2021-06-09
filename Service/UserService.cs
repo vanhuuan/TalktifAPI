@@ -37,7 +37,7 @@ namespace TalktifAPI.Service
             User user = _userService.GetById(id);
             if(user==null) throw new Exception("user doesn't exist!");
             return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
-                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies};
+                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies, CityId = user.CityId};
         }
 
         public bool inActiveUser(int id)
