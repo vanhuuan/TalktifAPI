@@ -9,7 +9,7 @@ namespace TalktifAPI.Dtos.Admin
         public string Name { get; set; }
         public string Email { get; set; }
         public bool? Gender { get; set; }
-        public string Hobbies { get; set; }
+        public bool? IsActive { get; set; }
         public int CityId { get; set; }
     }
 }

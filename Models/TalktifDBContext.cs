@@ -30,8 +30,7 @@ namespace TalktifAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-TPTMLAN; Initial Catalog=Talktif;User ID=Talktif; Password=vanhuuan89");
+                optionsBuilder.UseSqlServer("Server=talktif.database.windows.net; Initial Catalog=TalktifDB;User ID=talktif; Password=19tclcdt3@");
             }
         }
 
@@ -50,7 +49,7 @@ namespace TalktifAPI.Models
                     .WithMany(p => p.Cities)
                     .HasForeignKey(d => d.CountryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__City__countryId__7849DB76");
+                    .HasConstraintName("FK__City__countryId__17F790F9");
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -59,7 +58,7 @@ namespace TalktifAPI.Models
                     .WithMany(p => p.Messages)
                     .HasForeignKey(d => d.ChatRoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Message__chatRoo__2334397B");
+                    .HasConstraintName("FK__Message__chatRoo__7755B73D");
             });
 
             modelBuilder.Entity<Report>(entity =>
@@ -68,7 +67,7 @@ namespace TalktifAPI.Models
                     .WithMany(p => p.Reports)
                     .HasForeignKey(d => d.Reporter)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Report__reporter__2610A626");
+                    .HasConstraintName("FK__Report__reporter__7A3223E8");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -89,25 +88,25 @@ namespace TalktifAPI.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.CityId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User__cityId__14E61A24");
+                    .HasConstraintName("FK__User__cityId__690797E6");
             });
 
             modelBuilder.Entity<UserChatRoom>(entity =>
             {
                 entity.HasKey(e => new { e.User, e.ChatRoomId })
-                    .HasName("PK__User_Cha__4372E63ACB17237C");
+                    .HasName("PK__User_Cha__4372E63A22407D25");
 
                 entity.HasOne(d => d.ChatRoom)
                     .WithMany(p => p.UserChatRooms)
                     .HasForeignKey(d => d.ChatRoomId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User_Chat__chatR__2057CCD0");
+                    .HasConstraintName("FK__User_Chat__chatR__74794A92");
 
                 entity.HasOne(d => d.UserNavigation)
                     .WithMany(p => p.UserChatRooms)
                     .HasForeignKey(d => d.User)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User_ChatR__user__1F63A897");
+                    .HasConstraintName("FK__User_ChatR__user__73852659");
             });
 
             modelBuilder.Entity<UserRefreshToken>(entity =>
@@ -120,7 +119,7 @@ namespace TalktifAPI.Models
                     .WithMany(p => p.UserRefreshTokens)
                     .HasForeignKey(d => d.User)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__User_Refre__user__1A9EF37A");
+                    .HasConstraintName("FK__User_Refre__user__6EC0713C");
             });
 
             OnModelCreatingPartial(modelBuilder);

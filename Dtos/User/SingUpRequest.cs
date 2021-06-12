@@ -20,7 +20,7 @@ namespace TalktifAPI.Dtos
         public int CityId { get; set; }
         [Required]
         [StringLength(200)]
-        public string Hobbies { get; set; }
+        public string ForgotPass { get; set; }
         [Required]
         [StringLength(1000)]
         public string Device { get; set; }

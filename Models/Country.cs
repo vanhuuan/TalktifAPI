@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -26,8 +25,6 @@ namespace TalktifAPI.Models
         public string Name { get; set; }
         [Column("createAt", TypeName = "datetime")]
         public DateTime? CreateAt { get; set; }
-
-        [JsonIgnore]
 
         [InverseProperty(nameof(City.Country))]
         public virtual ICollection<City> Cities { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace TalktifAPI.Models
 {
     [Table("User")]
-    [Index(nameof(Email), Name = "UQ__User__AB6E6164565CBAC3", IsUnique = true)]
+    [Index(nameof(Email), Name = "UQ__User__AB6E6164D5F5877F", IsUnique = true)]
     public partial class User
     {
         public User()
@@ -18,8 +18,7 @@ namespace TalktifAPI.Models
             UserChatRooms = new HashSet<UserChatRoom>();
             UserRefreshTokens = new HashSet<UserRefreshToken>();
         }
-
-public User(string Name,string Email,String Password,bool gender,String hobbies,int cityid)
+        public User(string Name,string Email,String Password,bool gender,String forgotpass,int cityid ,bool isAdmin)
         {
             Reports = new HashSet<Report>();
             UserChatRooms = new HashSet<UserChatRoom>();
@@ -28,23 +27,7 @@ public User(string Name,string Email,String Password,bool gender,String hobbies,
             this.Email = Email;
             this.Password = Password;
             Gender = gender;
-            Hobbies = hobbies;
-            CityId = cityid;
-            IsActive = true;
-            ConfirmedEmail = true;
-            IsAdmin = false;
-            CreatedAt = DateTime.Now;
-        }
-        public User(string Name,string Email,String Password,bool gender,String hobbies,int cityid ,bool isAdmin)
-        {
-            Reports = new HashSet<Report>();
-            UserChatRooms = new HashSet<UserChatRoom>();
-            UserRefreshTokens = new HashSet<UserRefreshToken>();
-            this.Name = Name;
-            this.Email = Email;
-            this.Password = Password;
-            Gender = gender;
-            Hobbies = hobbies;
+            ForgotPass = forgotpass;
             CityId = cityid;
             IsActive = true;
             ConfirmedEmail = true;
@@ -69,11 +52,12 @@ public User(string Name,string Email,String Password,bool gender,String hobbies,
         public string Password { get; set; }
         [Column("gender")]
         public bool? Gender { get; set; }
-        [Column("hobbies")]
-        [StringLength(1000)]
-        public string Hobbies { get; set; }
         [Column("cityId")]
         public int CityId { get; set; }
+        [Required]
+        [Column("forgotPass")]
+        [StringLength(100)]
+        public string ForgotPass { get; set; }
         [Column("isAdmin")]
         public bool? IsAdmin { get; set; }
         [Column("confirmedEmail")]

@@ -13,10 +13,11 @@ namespace TalktifAPI.Dtos
         [Required]
         [StringLength(100)]
         public string Email { get; set; }
+        public string ForgotPass { get; set; }
+
         public bool? Gender { get; set; }
         public bool? IsAdmin {get; set;}
         public bool? IsActive {get; set;}
-        public string Hobbies { get; set; }
         public int CityId { get; set; }
         public string token { get; set; }
     }

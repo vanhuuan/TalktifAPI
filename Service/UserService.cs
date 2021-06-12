@@ -37,7 +37,7 @@ namespace TalktifAPI.Service
             User user = _userService.GetById(id);
             if(user==null) throw new Exception("user doesn't exist!");
             return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
-                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies, CityId = user.CityId};
+                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, CityId = user.CityId};
         }
 
         public bool inActiveUser(int id)
@@ -105,7 +105,7 @@ namespace TalktifAPI.Service
                 UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
                 return new LoginRespond(new ReadUserDto { Email = read.Email, Name = read.Name,
                                                         Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
-                                                        Hobbies = read.Hobbies,  CityId = read.CityId , IsActive = read.IsActive }, token);
+                                                        CityId = read.CityId , IsActive = read.IsActive }, token);
             }
             throw new Exception("Wrong Password");
         }
@@ -115,7 +115,7 @@ namespace TalktifAPI.Service
             User read = _userService.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"+ read.Id); 
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
-                                user.Gender,user.Hobbies,user.CityId));
+                                user.Gender,user.ForgotPass,user.CityId,false));
             read = _userService.GetUserByEmail(user.Email);
             string token = _jwtService.GenerateRefreshToken(read.Id);
             _tokenService.Insert(new UserRefreshToken{
@@ -124,21 +124,20 @@ namespace TalktifAPI.Service
             UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                         Name = user.Name,IsAdmin = read.IsAdmin, 
-                                        Gender= user.Gender, Hobbies = user.Hobbies, CityId = user.CityId },
-                                        token);
+                                        Gender= user.Gender, CityId = user.CityId },token);
         }
         public ReadUserDto updateInfo(UpdateInfoRequest user)
         {
             if(user==null || !isUserExists(user.Id)) throw new Exception("Not found");
             User u = _userService.GetById(user.Id);
+            if(!BC.Verify(user.OldPassword,u.Password)) throw new Exception("Wrong Password");
             u.Email = user.Email;
             u.Gender = user.Gender;
             u.Name = user.Name;
-            u.Hobbies = user.Hobbies;
             u.CityId = user.CityId;
             _userService.Update(u);
             return new ReadUserDto { Email = user.Email,Name = user.Name,
-                        Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin,  Hobbies = user.Hobbies, CityId = user.CityId };
+                        Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin, CityId = user.CityId };
         }
         public bool ActiveEmail(string token, int id)
         {
@@ -164,7 +163,7 @@ namespace TalktifAPI.Service
             User user = _userService.GetUserByEmail(email);
             if(user==null) throw new Exception("user doesn't exist!");
             return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
-                                IsAdmin = user.IsAdmin, IsActive = user.IsActive, Hobbies = user.Hobbies , CityId = user.CityId};
+                                IsAdmin = user.IsAdmin, IsActive = user.IsActive, CityId = user.CityId, ForgotPass = user.ForgotPass};
         }
 
         public List<Country> GetAllCountry()

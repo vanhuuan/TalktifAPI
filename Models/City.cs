@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -30,10 +29,8 @@ namespace TalktifAPI.Models
 
         [ForeignKey(nameof(CountryId))]
         [InverseProperty("Cities")]
-        [JsonIgnore]
         public virtual Country Country { get; set; }
         [InverseProperty(nameof(User.City))]
-        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
     }
 }

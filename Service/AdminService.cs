@@ -74,7 +74,7 @@ namespace TalktifAPI.Service
             User[] a = read.ToArray();           
             for(int i=count - request.From;i<count - request.To;i++){
                 list.Add(new ReadUserDto{
-                    Email =  a[i].Email, Name =  a[i].Name, Id =  a[i].Id , Hobbies = a[i].Hobbies,
+                    Email =  a[i].Email, Name =  a[i].Name, Id =  a[i].Id,
                     IsActive = a[i].IsActive, IsAdmin = a[i].IsAdmin, CityId = a[i].CityId, Gender = a[i].Gender 
                 });
             }
@@ -111,7 +111,7 @@ namespace TalktifAPI.Service
                 read.Name = request.Name;
                 read.Email = request.Email;
                 read.Gender = request.Gender;
-                read.Hobbies = request.Hobbies;
+                read.IsActive = request.IsActive;
                 read.CityId = request.CityId;
                 _userRepository.Update(read);
                 return true;
@@ -127,11 +127,11 @@ namespace TalktifAPI.Service
         {
             User read = _userRepository.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"+ read.Id);
-            _userRepository.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.Hobbies,user.CityId,true));
+            _userRepository.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,"Bach khoa da nang",user.CityId,true));
             read = _userRepository.GetUserByEmail(user.Email);
             return new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                     Name = user.Name,IsAdmin = read.IsAdmin, 
-                                    Gender= user.Gender, Hobbies = user.Hobbies};
+                                    Gender= user.Gender};
         }
 
         public Counts GetNumOfReCord()
