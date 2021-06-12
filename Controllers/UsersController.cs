@@ -140,7 +140,7 @@ namespace TalktifAPI.Controllers
             }
         }
         [Authorize]
-        [HttpPost]  
+        [HttpPut]  
         [Route("UpdateInfo")]
         public ActionResult<ReadUserDto> updateUserInfo(UpdateInfoRequest update){
             try{

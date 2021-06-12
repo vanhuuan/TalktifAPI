@@ -13,7 +13,13 @@ namespace TalktifAPI.Repository
 
         public int GetLastIdToken()
         {
-            return Entities.OrderByDescending(p => p.CreateAt).FirstOrDefault().Id;
+            var obj = Entities.OrderByDescending(p => p.CreateAt).FirstOrDefault();
+            if(obj==null){
+                return 0;
+            }
+            else{
+                return obj.Id;
+            }
         }
 
         public UserRefreshToken GetTokenByToken(int userid)

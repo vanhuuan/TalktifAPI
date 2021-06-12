@@ -113,7 +113,7 @@ namespace TalktifAPI.Service
         public SignUpRespond signUp(SignUpRequest user)
         {
             User read = _userService.GetUserByEmail(user.Email);
-            if(read!=null) throw new Exception("User has already exist"+ read.Id); 
+            if(read!=null) throw new Exception("User has already exist"); 
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
                                 user.Gender,user.ForgotPass,user.CityId,false));
             read = _userService.GetUserByEmail(user.Email);
