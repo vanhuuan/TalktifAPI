@@ -204,7 +204,7 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPost("UpdateForgotPass")]
+        [HttpPut("UpdateForgotPass")]
         [Authorize]
         public IActionResult UpdateForgotPass(UpdateForgotPassRequest request)
         {
