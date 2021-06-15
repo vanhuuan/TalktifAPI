@@ -175,5 +175,34 @@ namespace TalktifAPI.Service
         {
             return _cityRepository.GetCityByCountry(countryid);
         }
+
+        public string GetForgotPass(int id, string pass)
+        {
+            var user = _userService.GetById(id);
+            if(user!= null){
+                if(BC.Verify(pass,user.Password)){
+                    return user.ForgotPass;
+                }else{
+                    throw new Exception("Wrong pass");
+                }
+            }else{
+                throw new Exception("User not exist");
+            }
+        }
+
+        public void UpdateForgotPass(UpdateForgotPassRequest request)
+        {
+            var user = _userService.GetById(request.Id);
+            if(user!= null){
+                if(String.Compare(request.oldForgotPass,user.ForgotPass)!=0){
+                    user.ForgotPass = request.NewForgotPass;
+                    _userService.Update(user);
+                }else{
+                    throw new Exception("Wrong pass");
+                }
+            }else{
+                throw new Exception("User not exist");
+            }
+        }
     }   
 }
