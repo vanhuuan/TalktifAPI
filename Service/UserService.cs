@@ -194,7 +194,7 @@ namespace TalktifAPI.Service
         {
             var user = _userService.GetById(request.Id);
             if(user!= null){
-                if(String.Compare(request.oldForgotPass,user.ForgotPass)!=0){
+                if(String.Compare(request.oldForgotPass,user.ForgotPass)==0){
                     user.ForgotPass = request.NewForgotPass;
                     _userService.Update(user);
                 }else{
