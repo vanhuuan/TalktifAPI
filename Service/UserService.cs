@@ -115,7 +115,7 @@ namespace TalktifAPI.Service
             User read = _userService.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"); 
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
-                                user.Gender,user.ForgotPass,user.CityId,false));
+                                user.Gender,"Khong con dung nua",user.CityId,false));
             read = _userService.GetUserByEmail(user.Email);
             string token = _jwtService.GenerateRefreshToken(read.Id);
             _tokenService.Insert(new UserRefreshToken{

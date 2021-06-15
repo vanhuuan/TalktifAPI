@@ -19,9 +19,6 @@ namespace TalktifAPI.Dtos
         [Required]
         public int CityId { get; set; }
         [Required]
-        [StringLength(200)]
-        public string ForgotPass { get; set; }
-        [Required]
         [StringLength(1000)]
         public string Device { get; set; }
     }
