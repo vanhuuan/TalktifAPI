@@ -76,7 +76,7 @@ namespace TalktifAPI.Controllers
                 //     Body = "<h3><strong>Xin chào</strong></h3><p>Bạn vừa thay đổi mật  khẩu tài khoản Talktif, mã xác nhận của bạn là : "+num+"</p>"
                 // };
                 // _emailService.SendMail(content);
-                return Ok(u.ForgotPass);
+                return Ok("Khong con su dung");
             }catch(Exception e){
                 Console.WriteLine(e.Message);
                 return BadRequest(e.Message);
