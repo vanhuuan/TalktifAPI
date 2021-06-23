@@ -9,5 +9,6 @@ namespace TalktifAPI.Repository
         UserChatRoom GetUserChatRoomByFK(int uid,int crid);
         UserChatRoom GetAnotherUserChatRoom(int uid,int crid);
         UserChatRoom[] GetAllChatRoomMember(int chatroomId);
+        List<int> GetSharedChatRoon(int uid1,int uid2);
     }
 }

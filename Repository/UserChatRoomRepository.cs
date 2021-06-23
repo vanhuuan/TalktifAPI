@@ -25,6 +25,16 @@ namespace TalktifAPI.Repository
             return Entities.FirstOrDefault(p => p.ChatRoomId == crid && p.User != uid);
         }
 
+        public List<int> GetSharedChatRoon(int uid1, int uid2)
+        {
+            var list = Entities.Where(p => p.User == uid1 || p.User == uid2).ToList();
+            List<int> l = new List<int>();
+            foreach(var i in list){
+                l.Add(i.ChatRoomId);
+            }
+            return l;
+        }
+
         public UserChatRoom GetUserChatRoomByFK(int uid, int crid)
         {
             return Entities.FirstOrDefault(p => p.ChatRoomId == crid && p.User == uid);
