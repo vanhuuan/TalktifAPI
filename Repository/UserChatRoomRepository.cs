@@ -27,24 +27,12 @@ namespace TalktifAPI.Repository
 
         public List<int> GetSharedChatRoon(int uid1, int uid2)
         {
-            var list = Entities.Where(p => p.User == uid1 || p.User == uid2).ToArray();
+            var list = Entities.Where(p => p.User == uid1 || p.User == uid2).ToList();
             List<int> l = new List<int>();
-            for(int i=0;i<list.Length;i++){
-                for(int j=0;j<list.Length;j++)
-                {
-                    if(!l.Any(p => p==list[i].ChatRoomId)) {
-                        break;
-                    }
-                    if(i==j) {
-                        continue;
-                    }
-                    if(list[i].ChatRoomId==list[j].ChatRoomId)
-                    { 
-                        l.Add(list[i].ChatRoomId);
-                    }
-                }
+            foreach(var i in list){
+                l.Add(i.ChatRoomId);
             }
-            return l;
+            return  l.GroupBy(p => p).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
         }
 
         public UserChatRoom GetUserChatRoomByFK(int uid, int crid)

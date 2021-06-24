@@ -51,10 +51,10 @@ namespace TalktifAPI.Service
                     var chatroon = _chatRoomRepository.GetById(i);
                     if(chatroon.NumOfMember==2){
                             throw new Exception("You guys has already been a friend");
-                        }
+                    }
                     else{
                         continue;
-                        }
+                    }
                 }
             }catch(NullReferenceException){
 
