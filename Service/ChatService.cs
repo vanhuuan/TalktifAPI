@@ -50,7 +50,7 @@ namespace TalktifAPI.Service
                 foreach(var i in list){
                     var chatroon = _chatRoomRepository.GetById(i);
                     if(chatroon.NumOfMember==2){
-                            throw new Exception("You have already a friend");
+                            throw new Exception("You guys has already been a friend");
                         }
                     else{
                         continue;
