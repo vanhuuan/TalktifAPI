@@ -138,7 +138,7 @@ namespace TalktifAPI.Service
             u.CityId = user.CityId;
             _userService.Update(u);
             return new ReadUserDto { Email = user.Email,Name = user.Name,
-                        Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin, CityId = user.CityId };
+                        Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin, CityId = user.CityId, IsActive = u.IsActive };
         }
         public bool ActiveEmail(string token, int id)
         {
