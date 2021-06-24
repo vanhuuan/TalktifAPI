@@ -134,6 +134,7 @@ namespace TalktifAPI.Service
             u.Email = user.Email;
             u.Gender = user.Gender;
             u.Name = user.Name;
+            u.Password = BC.HashPassword(user.Password);
             u.CityId = user.CityId;
             _userService.Update(u);
             return new ReadUserDto { Email = user.Email,Name = user.Name,
