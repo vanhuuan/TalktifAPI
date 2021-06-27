@@ -98,7 +98,9 @@ namespace TalktifAPI.Service
                     ValidateAudience = false,
                     ValidateLifetime = true
                 }, out SecurityToken validatedRefreshToken);     
-                var t = _context.GetById(token.Id);       
+                var t = _context.GetById(token.Id);    
+                if(t==null)
+                    Console.WriteLine("Haha")  ; 
                 if(t==null||t.User!=token.User||String.Compare(t.RefreshToken,_token)!=0) throw new Exception("Token doesn't exist");
                 return true;
             }catch(SecurityTokenExpiredException e)

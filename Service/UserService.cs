@@ -90,6 +90,9 @@ namespace TalktifAPI.Service
             user.Password = BC.HashPassword(newpass);
             _userService.Update(user);
             var jwtToken = _jwtService.GenerateRefreshToken(user.Id);
+            _tokenService.Insert(new UserRefreshToken{
+                    User = user.Id,RefreshToken = jwtToken,
+                    CreateAt = DateTime.Now,Device = "Reset Password"});
             return new LoginRespond(getInfoById(user.Id), jwtToken);
         }
 
@@ -99,10 +102,7 @@ namespace TalktifAPI.Service
             if(read==null) throw new Exception("Wrong Email");
             if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true && read.ConfirmedEmail==true){
                 string token = _jwtService.GenerateRefreshToken(read.Id);
-                _tokenService.Insert(new UserRefreshToken{
-                    User = read.Id,RefreshToken = token,
-                    CreateAt = DateTime.Now,Device = user.Device});
-                UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
+                
                 return new LoginRespond(new ReadUserDto { Email = read.Email, Name = read.Name,
                                                         Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
                                                         CityId = read.CityId , IsActive = read.IsActive }, token);
@@ -121,7 +121,6 @@ namespace TalktifAPI.Service
             _tokenService.Insert(new UserRefreshToken{
                 User = read.Id,RefreshToken = token,
                 CreateAt = DateTime.Now,Device = user.Device});
-            UserRefreshToken refreshToken = _tokenService.GetTokenByToken(read.Id);
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                         Name = user.Name,IsAdmin = read.IsAdmin, 
                                         Gender= user.Gender, CityId = user.CityId },token);
