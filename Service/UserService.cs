@@ -93,7 +93,7 @@ namespace TalktifAPI.Service
             var jwtToken = _jwtService.GenerateRefreshToken(user.Id);
             _tokenService.Insert(new UserRefreshToken{
                     User = user.Id,RefreshToken = jwtToken,
-                    CreateAt = DateTime.Now,Device = "Reset Password"});
+                    CreateAt = DateTime.Now.AddHours(7),Device = "Reset Password"});
             return new LoginRespond(getInfoById(user.Id), jwtToken);
         }
 
