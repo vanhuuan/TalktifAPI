@@ -76,6 +76,7 @@ namespace TalktifAPI.Service
                 Reporter = request.Reporter,
                 Suspect = request.Suspect,
                 Reason = request.Reason,
+                CreatedAt = DateTime.Now.AddHours(7),
                 Status = false,
             });
             return true;
@@ -104,7 +105,7 @@ namespace TalktifAPI.Service
                 string token = _jwtService.GenerateRefreshToken(read.Id);
                 _tokenService.Insert(new UserRefreshToken{
                 User = read.Id,RefreshToken = token,
-                CreateAt = DateTime.Now,Device = user.Device});
+                CreateAt = DateTime.Now.AddHours(7),Device = user.Device});
                 return new LoginRespond(new ReadUserDto { Email = read.Email, Name = read.Name,
                                                         Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
                                                         CityId = read.CityId , IsActive = read.IsActive }, token);
@@ -122,7 +123,7 @@ namespace TalktifAPI.Service
             string token = _jwtService.GenerateRefreshToken(read.Id);
             _tokenService.Insert(new UserRefreshToken{
                 User = read.Id,RefreshToken = token,
-                CreateAt = DateTime.Now,Device = user.Device});
+                CreateAt = DateTime.Now.AddHours(7),Device = user.Device});
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                         Name = user.Name,IsAdmin = read.IsAdmin, 
                                         Gender= user.Gender, CityId = user.CityId },token);

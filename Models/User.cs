@@ -32,7 +32,7 @@ namespace TalktifAPI.Models
             IsActive = true;
             ConfirmedEmail = true;
             IsAdmin = isAdmin;
-            CreatedAt = DateTime.Now;
+            CreatedAt = DateTime.Now.AddHours(7);
         }
 
         [Key]

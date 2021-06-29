@@ -27,7 +27,7 @@ namespace TalktifAPI.Service
                 Sender = mess.IdSender,
                 ChatRoomId  = mess.IdChatRoom,
                 Content = mess.Message,
-                SentAt = DateTime.Now
+                SentAt = DateTime.Now.AddHours(7),
             });
             return true;
             }catch(Exception err){
@@ -66,7 +66,7 @@ namespace TalktifAPI.Service
             _chatRoomRepository.Insert(new ChatRoom{
                     NumOfMember = 2,
                     ChatRoomName = r.User1Id + "and" + r.User2Id,
-                    CreatedAt = DateTime.Now
+                    CreatedAt = DateTime.Now.AddHours(7),
                 });
             ChatRoom i = _chatRoomRepository.GetChatRoomByName(r.User1Id + "and" + r.User2Id);
             _userChatRoomRepository.Insert(new UserChatRoom{
