@@ -67,7 +67,7 @@ namespace TalktifAPI.Controllers
         }
         [HttpGet]
         [Authorize(Role.Admin)]
-        [Route("{id}")]
+        [Route("GetUserInfo/{id}")]
         public ActionResult<ReadUserDto> getUserInfo(int id)
         {
             try{
@@ -79,7 +79,7 @@ namespace TalktifAPI.Controllers
         }
         [HttpGet]
         [Authorize(Role.Admin)]
-        [Route("{id}")]
+        [Route("GetReportInfo/{id}")]
         public ActionResult<GetReportRespond> getReportInfo(int id)
         {
             try{
