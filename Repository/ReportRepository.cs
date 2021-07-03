@@ -18,6 +18,7 @@ namespace TalktifAPI.Repository
                 case "Reporter" : return Entities.OrderByDescending(p => p.Reporter).Take(top).ToList();
                 case "Suspect" : return Entities.OrderByDescending(p => p.Suspect).Take(top).ToList();
                 case "Reason" : return Entities.OrderByDescending(p => p.Reason).Take(top).ToList();
+                case "DayReport" : return Entities.OrderByDescending(p => p.CreatedAt).Take(top).ToList();
                 default : return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
             }     
         }

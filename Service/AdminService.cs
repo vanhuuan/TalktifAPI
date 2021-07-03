@@ -59,7 +59,8 @@ namespace TalktifAPI.Service
             for(int i=count - request.From;i<count - request.To;i++){
                 list.Add(new GetReportRespond{
                     Id =  a[i].Id, Reporter =  a[i].Reporter, Reason =  a[i].Reason,
-                    Suspect = a[i].Suspect , Status = a[i].Status , Note = a[i].Note
+                    Suspect = a[i].Suspect , Status = a[i].Status , Note = a[i].Note,
+                    createAt = a[i].CreatedAt
                 });
             }
             return list;

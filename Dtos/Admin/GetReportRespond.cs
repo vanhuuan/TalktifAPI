@@ -1,3 +1,5 @@
+using System;
+
 namespace TalktifAPI.Dtos
 {
     public class GetReportRespond
@@ -8,5 +10,6 @@ namespace TalktifAPI.Dtos
         public string Reason { get; set; }
         public string Note { get; set; }
         public bool Status { get; set; }
+        public DateTime? createAt { get; set; }
     }
 }
