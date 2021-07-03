@@ -65,6 +65,30 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet]
+        [Authorize(Role.Admin)]
+        [Route("{id}")]
+        public ActionResult<ReadUserDto> getUserInfo(int id)
+        {
+            try{
+                return Ok(_adminService.GetUserById(id));
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet]
+        [Authorize(Role.Admin)]
+        [Route("{id}")]
+        public ActionResult<GetReportRespond> getReportInfo(int id)
+        {
+            try{
+                return Ok(_adminService.GetReportById(id));
+            }catch(Exception e){
+                Console.WriteLine(e.Message);
+                return BadRequest(e.Message);
+            }
+        }
         [Authorize(Role.Admin)]
         [HttpPut]
         [Route("UpdateReport")]

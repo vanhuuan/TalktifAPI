@@ -8,6 +8,8 @@ namespace TalktifAPI.Service
     {
         List<ReadUserDto> GetAllUser(GetAllUserRequest request);
         List<GetReportRespond> GetAllReport(GetAllReportRequest request);
+        ReadUserDto GetUserById(int uid);
+        GetReportRespond GetReportById(int uid);
         bool UpdateReport(UpdateReportRequest request);
         bool UpdateUser(UpdateUserRequest request);
         bool IsAdmin(int id);

@@ -145,6 +145,23 @@ namespace TalktifAPI.Service
             };
         }
 
-        
+        public ReadUserDto GetUserById(int uid)
+        {
+            User user = _userRepository.GetById(uid);
+            if(user==null) throw new Exception("user doesn't exist!");
+            return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
+                                    IsAdmin = user.IsAdmin, IsActive = user.IsActive, CityId = user.CityId};
+        }
+
+        public GetReportRespond GetReportById(int id)
+        {
+            Report report = _reportRepository.GetById(id);
+            if(report==null){
+                throw new Exception("Report khong ton tai");
+            }else{
+                return new GetReportRespond{ Id = report.Id, Reporter =  report.Reporter, Reason =  report.Reason,
+                    Suspect = report.Suspect , Status = report.Status , Note = report.Note, createAt = report.CreatedAt};
+            }
+        }
     }
 }
