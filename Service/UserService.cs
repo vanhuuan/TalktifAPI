@@ -110,6 +110,9 @@ namespace TalktifAPI.Service
                                                         Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
                                                         CityId = read.CityId , IsActive = read.IsActive }, token);
             }
+            else{
+                if(read.IsActive!=true) throw new Exception("Your account are locked, contact to admin for infomation");
+            }
             throw new Exception("Wrong Password");
         }
 
