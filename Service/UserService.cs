@@ -101,7 +101,7 @@ namespace TalktifAPI.Service
         { 
             User read = _userService.GetUserByEmail(user.Email);
             if(read==null) throw new Exception("Wrong Email");
-            if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true && read.ConfirmedEmail==true){
+            if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true){
                 string token = _jwtService.GenerateRefreshToken(read.Id);
                 _tokenService.Insert(new UserRefreshToken{
                 User = read.Id,RefreshToken = token,
@@ -121,7 +121,7 @@ namespace TalktifAPI.Service
             User read = _userService.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"); 
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
-                                user.Gender,"Khong con dung nua",user.CityId,false));
+                                user.Gender,user.CityId,false));
             read = _userService.GetUserByEmail(user.Email);
             string token = _jwtService.GenerateRefreshToken(read.Id);
             _tokenService.Insert(new UserRefreshToken{
@@ -144,17 +144,6 @@ namespace TalktifAPI.Service
             _userService.Update(u);
             return new ReadUserDto { Email = user.Email,Name = user.Name,
                         Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin, CityId = user.CityId, IsActive = u.IsActive };
-        }
-        public bool ActiveEmail(string token, int id)
-        {
-            if(CheckToken(token,id)){
-                UserRefreshToken t = _tokenService.GetById(id);
-                User u = _userService.GetById(t.User);
-                u.ConfirmedEmail = true;
-                _userService.Update(u);
-                return true;
-            }
-            return false;
         }
 
         public bool CheckToken(string token, int id)
@@ -180,35 +169,6 @@ namespace TalktifAPI.Service
         public List<City> GettCityByCountry(int countryid)
         {
             return _cityRepository.GetCityByCountry(countryid);
-        }
-
-        public string GetForgotPass(int id, string pass)
-        {
-            var user = _userService.GetById(id);
-            if(user!= null){
-                if(BC.Verify(pass,user.Password)){
-                    return user.ForgotPass;
-                }else{
-                    throw new Exception("Wrong pass");
-                }
-            }else{
-                throw new Exception("User not exist");
-            }
-        }
-
-        public void UpdateForgotPass(UpdateForgotPassRequest request)
-        {
-            var user = _userService.GetById(request.Id);
-            if(user!= null){
-                if(String.Compare(request.oldForgotPass,user.ForgotPass)==0){
-                    user.ForgotPass = request.NewForgotPass;
-                    _userService.Update(user);
-                }else{
-                    throw new Exception("Wrong pass");
-                }
-            }else{
-                throw new Exception("User not exist");
-            }
         }
     }   
 }

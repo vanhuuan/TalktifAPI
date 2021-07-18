@@ -192,31 +192,6 @@ namespace TalktifAPI.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpGet("GetForgotPass/{pass}")]
-        [Authorize]
-        public IActionResult GetForgotPass(String pass)
-        {
-            try{
-                var respond = _service.GetForgotPass(GetId(),pass);
-                return Ok(respond);
-            }catch(Exception e){
-                Console.Write(e.Message);
-                return BadRequest(e.Message);
-            }
-        }
-        [HttpPut("UpdateForgotPass")]
-        [Authorize]
-        public IActionResult UpdateForgotPass(UpdateForgotPassRequest request)
-        {
-            try{
-                CheckId(request.Id);
-                _service.UpdateForgotPass(request);
-                return Ok();
-            }catch(Exception e){
-                Console.Write(e.Message);
-                return BadRequest(e.Message);
-            }
-        }
         // private void setTokenCookie(string token,int id)
         // {
         //     var cookieOptions = new CookieOptions

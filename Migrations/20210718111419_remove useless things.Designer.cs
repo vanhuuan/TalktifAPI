@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TalktifAPI.Models;
 
 namespace TalktifAPI.Migrations
 {
     [DbContext(typeof(TalktifContext))]
-    partial class TalktifContextModelSnapshot : ModelSnapshot
+    [Migration("20210718111419_remove useless things")]
+    partial class removeuselessthings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -72,7 +72,6 @@ namespace TalktifAPI.Models
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.ConfirmedEmail).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Email).IsUnicode(false);
 

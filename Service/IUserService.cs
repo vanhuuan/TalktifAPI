@@ -18,10 +18,7 @@ namespace TalktifAPI.Service
         RefreshTokenRespond RefreshToken(ReFreshToken token,int id);
         bool inActiveUser(int id);
         LoginRespond resetPass(string email,string newpass);
-        bool ActiveEmail(string token,int id);
         bool CheckToken(string token,int id);
-        String GetForgotPass(int id,string pass);
-        void UpdateForgotPass(UpdateForgotPassRequest request);
         List<Country> GetAllCountry();
         List<City> GettCityByCountry(int countryid);
     }
