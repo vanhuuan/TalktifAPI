@@ -31,7 +31,9 @@ namespace TalktifAPI.Controllers
                 try{
                     CheckId(createChatRoom.User1Id);
                 }catch(Exception e){
-                    if(e.Message!=)
+                    if(e.Message=="You don't have permission to do this action"){
+                        CheckId(createChatRoom.User2Id);
+                    }
                 }
                 CreateChatRoomRespond respond =_service.CreateChatRoom(createChatRoom);
                 return Ok(respond);
