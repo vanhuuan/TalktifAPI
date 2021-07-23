@@ -28,7 +28,11 @@ namespace TalktifAPI.Controllers
         public ActionResult Create(CreateChatRoomRequest createChatRoom)
         {
             try{
-                CheckId(createChatRoom.User1Id);
+                try{
+                    CheckId(createChatRoom.User1Id);
+                }catch(Exception e){
+                    if(e.Message!=)
+                }
                 CreateChatRoomRespond respond =_service.CreateChatRoom(createChatRoom);
                 return Ok(respond);
             }catch(Exception e){
@@ -125,8 +129,9 @@ namespace TalktifAPI.Controllers
             String token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             return _jwtService.GetId(token);
         }
-        public void CheckId(int id){
+        public bool CheckId(int id){
             if(GetId()!=id) throw new Exception("You don't have permission to do this action");
+            else return true;
         }
     }
 }
