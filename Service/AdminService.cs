@@ -128,7 +128,7 @@ namespace TalktifAPI.Service
         {
             User read = _userRepository.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"+ read.Id);
-            _userRepository.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.CityId,true));
+            _userRepository.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.CityId,true,"ADMIN"));
             read = _userRepository.GetUserByEmail(user.Email);
             return new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                     Name = user.Name,IsAdmin = read.IsAdmin, 

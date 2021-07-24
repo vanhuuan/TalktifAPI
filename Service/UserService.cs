@@ -121,7 +121,7 @@ namespace TalktifAPI.Service
             User read = _userService.GetUserByEmail(user.Email);
             if(read!=null) throw new Exception("User has already exist"); 
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
-                                user.Gender,user.CityId,false));
+                                user.Gender,user.CityId,false,user.Hobbies));
             read = _userService.GetUserByEmail(user.Email);
             string token = _jwtService.GenerateRefreshToken(read.Id);
             _tokenService.Insert(new UserRefreshToken{
@@ -141,9 +141,10 @@ namespace TalktifAPI.Service
             u.Name = user.Name;
             u.Password = BC.HashPassword(user.Password);
             u.CityId = user.CityId;
+            u.Hobbies = user.Hobbies;
             _userService.Update(u);
-            return new ReadUserDto { Email = user.Email,Name = user.Name,
-                        Id = u.Id ,Gender= user.Gender, IsAdmin = u.IsAdmin, CityId = user.CityId, IsActive = u.IsActive };
+            return new ReadUserDto { Email = user.Email,Name = user.Name,Id = u.Id ,Gender= user.Gender,
+                IsAdmin = u.IsAdmin, CityId = user.CityId, IsActive = u.IsActive,Hobbies=u.Hobbies };
         }
 
         public bool CheckToken(string token, int id)

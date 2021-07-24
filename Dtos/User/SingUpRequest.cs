@@ -14,6 +14,8 @@ namespace TalktifAPI.Dtos
         [Required]
         [StringLength(100)]
         public String Password { get; set; }
+        [StringLength(100)]
+        public String Hobbies { get; set; }
         [Required]
         public bool Gender { get; set; }
         [Required]

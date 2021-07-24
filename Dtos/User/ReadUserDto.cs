@@ -13,6 +13,8 @@ namespace TalktifAPI.Dtos
         [Required]
         [StringLength(100)]
         public string Email { get; set; }
+        [StringLength(100)]
+        public String Hobbies { get; set; }
         public bool? Gender { get; set; }
         public bool? IsAdmin {get; set;}
         public bool? IsActive {get; set;}
