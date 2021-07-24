@@ -36,8 +36,8 @@ namespace TalktifAPI.Service
         {
             User user = _userService.GetById(id);
             if(user==null) throw new Exception("user doesn't exist!");
-            return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
-                                     IsAdmin = user.IsAdmin, IsActive = user.IsActive, CityId = user.CityId};
+            return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,IsAdmin = user.IsAdmin, 
+                                    IsActive = user.IsActive, CityId = user.CityId, Hobbies = user.Hobbies};
         }
 
         public bool inActiveUser(int id)
@@ -107,8 +107,8 @@ namespace TalktifAPI.Service
                 User = read.Id,RefreshToken = token,
                 CreateAt = DateTime.Now.AddHours(7),Device = user.Device});
                 return new LoginRespond(new ReadUserDto { Email = read.Email, Name = read.Name,
-                                                        Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
-                                                        CityId = read.CityId , IsActive = read.IsActive }, token);
+                                        Id = read.Id , Gender= read.Gender, IsAdmin = read.IsAdmin, 
+                                        CityId = read.CityId , IsActive = read.IsActive, Hobbies = read.Hobbies }, token);
             }
             else{
                 if(read.IsActive!=true) throw new Exception("Your account are locked, contact to admin for infomation");
@@ -129,7 +129,7 @@ namespace TalktifAPI.Service
                 CreateAt = DateTime.Now.AddHours(7),Device = user.Device});
             return new SignUpRespond(new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
                                         Name = user.Name,IsAdmin = read.IsAdmin, 
-                                        Gender= user.Gender, CityId = user.CityId },token);
+                                        Gender= user.Gender, CityId = user.CityId, Hobbies = user.Hobbies },token);
         }
         public ReadUserDto updateInfo(UpdateInfoRequest user)
         {
@@ -159,7 +159,7 @@ namespace TalktifAPI.Service
             User user = _userService.GetUserByEmail(email);
             if(user==null) throw new Exception("user doesn't exist!");
             return new ReadUserDto{ Name = user.Name, Email= user.Email, Id = user.Id ,Gender = user.Gender,
-                                IsAdmin = user.IsAdmin, IsActive = user.IsActive, CityId = user.CityId};
+                            IsAdmin = user.IsAdmin, IsActive = user.IsActive, CityId = user.CityId, Hobbies = user.Hobbies};
         }
 
         public List<Country> GetAllCountry()
