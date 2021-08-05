@@ -20,7 +20,7 @@ namespace TalktifAPI.Models
         [Required]
         [Column("nickName")]
         [StringLength(30)]
-        public string NickName { get; set; }
+        public String NickName { get; set; }
 
         [ForeignKey(nameof(ChatRoomId))]
         [InverseProperty("UserChatRooms")]
