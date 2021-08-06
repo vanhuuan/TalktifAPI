@@ -39,7 +39,7 @@ namespace TalktifAPI.Controllers
                 return Ok(respond);
             }catch(Exception e){
                 Console.WriteLine(e.ToString()+"createchatroom err");
-                return BadRequest(e.Message);
+                return BadRequest(e.StackTrace);
             }
         }
         [HttpGet]   

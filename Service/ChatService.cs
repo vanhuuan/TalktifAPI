@@ -45,19 +45,16 @@ namespace TalktifAPI.Service
         }
 
         public void  CheckDuplicateChatRoom(int uid1,int uid2){
-            try{
-                var list = _userChatRoomRepository.GetSharedChatRoon(uid1,uid2);
-                foreach(var i in list){
-                    var chatroon = _chatRoomRepository.GetById(i);
-                    if(chatroon.NumOfMember==2){
-                            throw new Exception("You guys has already been a friend");
-                    }
-                    else{
-                        continue;
-                    }
+            var list = _userChatRoomRepository.GetSharedChatRoon(uid1,uid2);
+            if(list==null) return ;
+            foreach(var i in list){
+                var chatroon = _chatRoomRepository.GetById(i);
+                if(chatroon.NumOfMember==2){
+                    throw new Exception("You guys has already been a friend");
                 }
-            }catch(NullReferenceException){
-
+                else{
+                    continue;
+                }
             }
         }
         public CreateChatRoomRespond CreateChatRoom(CreateChatRoomRequest r)
