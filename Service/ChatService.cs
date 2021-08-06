@@ -60,19 +60,20 @@ namespace TalktifAPI.Service
         public CreateChatRoomRespond CreateChatRoom(CreateChatRoomRequest r)
         {
             CheckDuplicateChatRoom(r.User1Id,r.User2Id);
-            _chatRoomRepository.Insert(new ChatRoom{
+            ChatRoom chatRoom = new ChatRoom{
                     NumOfMember = 2,
                     ChatRoomName = r.User1Id + "and" + r.User2Id,
                     CreatedAt = DateTime.Now.AddHours(7),
-                });
+            };
+            _chatRoomRepository.Insert(chatRoom);
             ChatRoom i = _chatRoomRepository.GetChatRoomByName(r.User1Id + "and" + r.User2Id);
             _userChatRoomRepository.Insert(new UserChatRoom{
-                    ChatRoomId = i.Id,
+                    ChatRoomId = chatRoom.Id,
                     NickName = r.User1NickName,
                     User = r.User1Id
                 });
             _userChatRoomRepository.Insert(new UserChatRoom{
-                    ChatRoomId = i.Id,
+                    ChatRoomId = chatRoom.Id,
                     NickName = r.User2NickName,
                     User = r.User2Id
                 });
