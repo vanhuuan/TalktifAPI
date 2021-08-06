@@ -17,7 +17,7 @@ namespace TalktifAPI.Repository
 
         public ChatRoom GetChatRoomByName(string name)
         {
-            return Entities.FirstOrDefault(p => p.ChatRoomName.Equals(name));
+            return Entities.LastOrDefault(p => p.ChatRoomName.Equals(name));
         }
     }
 }
