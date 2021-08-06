@@ -22,9 +22,9 @@ namespace TalktifAPI.Repository
             }
         }
 
-        public UserRefreshToken GetTokenByToken(int userid)
+        public UserRefreshToken GetTokenByToken(string token)
         {
-            return Entities.Where(p => p.User == userid).OrderByDescending(p => p.CreateAt).FirstOrDefault();
+            return Entities.Where(p => p.RefreshToken.Equals(token)).OrderByDescending(p => p.CreateAt).FirstOrDefault();
         }
 
         public List<UserRefreshToken> GetTokenByUID(int uid)

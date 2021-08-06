@@ -29,14 +29,12 @@ namespace TalktifAPI.Service
 
         public string GenerateRefreshToken(int user)
         {
-            int id = _context.GetLastIdToken(); id++;
             var tokenHandler = new JwtSecurityTokenHandler();  
             var key = Encoding.ASCII.GetBytes(_secret2);  
             var tokenDescriptor = new SecurityTokenDescriptor  
             {    
                 Subject = new ClaimsIdentity(new[]  
                 {  
-                    new Claim(ClaimTypes.Email, id.ToString()), 
                     new Claim(ClaimTypes.Name, user.ToString())  
                 }),  
                 IssuedAt = DateTime.Now,
@@ -86,7 +84,6 @@ namespace TalktifAPI.Service
                 JwtSecurityToken jwtToken = tokenHandler.ReadToken(_token) as JwtSecurityToken;
                 UserRefreshToken token = new UserRefreshToken{
                     RefreshToken = _token,
-                    Id = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email").Value),
                     User = Convert.ToInt32(jwtToken.Claims.FirstOrDefault(claim => claim.Type == "unique_name").Value)
                 };
                 var key = Encoding.ASCII.GetBytes(_secret2);
@@ -98,10 +95,10 @@ namespace TalktifAPI.Service
                     ValidateAudience = false,
                     ValidateLifetime = true
                 }, out SecurityToken validatedRefreshToken);     
-                var t = _context.GetById(token.Id);    
+                var t = _context.GetTokenByToken(token.RefreshToken);    
                 if(t==null)
-                    Console.WriteLine("Haha")  ; 
-                if(t==null||t.User!=token.User||String.Compare(t.RefreshToken,_token)!=0) throw new Exception("Token doesn't exist");
+                    Console.WriteLine("user not exist!")  ; 
+                if(t==null||t.User!=token.User) throw new Exception("Token doesn't exist");
                 return true;
             }catch(SecurityTokenExpiredException e)
             {

@@ -66,7 +66,6 @@ namespace TalktifAPI.Service
                     CreatedAt = DateTime.Now.AddHours(7),
             };
             _chatRoomRepository.Insert(chatRoom);
-            ChatRoom i = _chatRoomRepository.GetChatRoomByName(r.User1Id + "and" + r.User2Id);
             _userChatRoomRepository.Insert(new UserChatRoom{
                     ChatRoomId = chatRoom.Id,
                     NickName = r.User1NickName,
@@ -77,11 +76,11 @@ namespace TalktifAPI.Service
                     NickName = r.User2NickName,
                     User = r.User2Id
                 });
-            i.ChatRoomName=r.User1NickName+ " and "+r.User2NickName;
-            _chatRoomRepository.Update(i);
+            chatRoom.ChatRoomName=r.User1NickName+ " and "+r.User2NickName;
+            _chatRoomRepository.Update(chatRoom);
             return new CreateChatRoomRespond{
-                RoomId = i.Id,
-                RoomName = i.ChatRoomName,
+                RoomId = chatRoom.Id,
+                RoomName = chatRoom.ChatRoomName,
             };
         }
 
