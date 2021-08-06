@@ -95,10 +95,8 @@ namespace TalktifAPI.Service
                     ValidateAudience = false,
                     ValidateLifetime = true
                 }, out SecurityToken validatedRefreshToken);     
-                var t = _context.GetTokenByToken(token.RefreshToken);    
-                if(t==null)
-                    Console.WriteLine("user not exist!")  ; 
-                if(t==null||t.User!=token.User) throw new Exception("Token doesn't exist");
+                var t = _context.GetTokenByToken(token.RefreshToken);     
+                if(t==null) throw new Exception("Token doesn't exist");
                 return true;
             }catch(SecurityTokenExpiredException e)
             {
