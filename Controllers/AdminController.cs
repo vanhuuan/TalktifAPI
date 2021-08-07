@@ -37,12 +37,12 @@ namespace TalktifAPI.Controllers
         }
         [Authorize(Role.Admin)]
         [HttpGet]
-        [Route("GetAllUser/{from}/{to}/{orderby}/{filter}/{seacrch}")]
-        public ActionResult<List<ReadUserDto>> getAllUser(int from,int to,String  orderby,String filter,String search)
+        [Route("GetAllUser/{top}/{orderby}/{filter}/{search}")]
+        public ActionResult<List<ReadUserDto>> getAllUser(String top,String  orderby,String filter,String search)
         {
             try{
                 GetAllUserRequest request = new GetAllUserRequest{
-                    From = from, To = to, OderBy = orderby,
+                    Top = Convert.ToInt32(top), OderBy = orderby,
                     Filter = filter, Search = search
                 };
                 return Ok(_adminService.GetAllUser(request));
@@ -53,12 +53,12 @@ namespace TalktifAPI.Controllers
         }
         [Authorize(Role.Admin)]
         [HttpGet]
-        [Route("GetAllReport/{from}/{to}/{orderby}/{filter}/{seacrch}")]
-        public ActionResult<List<GetReportRespond>> getAllReport(int from,int to,String  orderby,String filter,String search)
+        [Route("GetAllReport/{top}/{orderby}/{filter}/{search}")]
+        public ActionResult<List<GetReportRespond>> getAllReport(String top,String  orderby,String filter,String search)
         {
             try{
                 GetAllReportRequest request = new GetAllReportRequest{
-                    From = from, To = to, OderBy = orderby,
+                    Top = Convert.ToInt32(top), OderBy = orderby,
                     Filter = filter, Search = search
                 };
                 return Ok(_adminService.GetAllReport(request));

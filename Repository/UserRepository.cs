@@ -13,6 +13,7 @@ namespace TalktifAPI.Repository
 
         public List<User> GetAllUSer(int top,string oderby,String filter,String search)
         {
+            if(search.Equals("null")) search = "";
             switch(oderby){
                 case "Id" : 
                 {
@@ -20,7 +21,9 @@ namespace TalktifAPI.Repository
                         case "ID" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
                         case "Name" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(search)).Take(top).ToList();
                         case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
-                        default : return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
+                        default : {
+                            return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
+                        }
                     }
                 }
                 case "Name" : 

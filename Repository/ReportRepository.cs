@@ -13,6 +13,7 @@ namespace TalktifAPI.Repository
 
         public List<Report> GetAllReport(int top,string oderby,String filter,String search)
         {
+            if(search.Equals("null")) search = "";
             switch(oderby){
                 case "Id" : 
                 {

@@ -53,14 +53,12 @@ namespace TalktifAPI.Service
         {
             int count = _reportRepository.Count();
             List<GetReportRespond> list = new List<GetReportRespond>();
-            if(request.From < request.To || count < request.From || count < request.To ) throw new IndexOutOfRangeException();
-            var read = _reportRepository.GetAllReport(count - request.To,request.OderBy,request.Filter,request.Search);
-            Report[] a = read.ToArray();           
-            for(int i=count - request.From;i<count - request.To;i++){
+            var read = _reportRepository.GetAllReport(request.Top,request.OderBy,request.Filter,request.Search);         
+            foreach(var a in read){
                 list.Add(new GetReportRespond{
-                    Id =  a[i].Id, Reporter =  a[i].Reporter, Reason =  a[i].Reason,
-                    Suspect = a[i].Suspect , Status = a[i].Status , Note = a[i].Note,
-                    createAt = a[i].CreatedAt
+                    Id =  a.Id, Reporter =  a.Reporter, Reason =  a.Reason,
+                    Suspect = a.Suspect , Status = a.Status , Note = a.Note,
+                    createAt = a.CreatedAt
                 });
             }
             return list;
@@ -70,13 +68,11 @@ namespace TalktifAPI.Service
         {
             int count = _userRepository.Count();
             List<ReadUserDto> list = new List<ReadUserDto>();
-            if(request.From < request.To || count < request.From || count < request.To) throw new IndexOutOfRangeException();
-            List<User> read = _userRepository.GetAllUSer(count - request.To,request.OderBy,request.Filter,request.Search);
-            User[] a = read.ToArray();           
-            for(int i=count - request.From;i<count - request.To;i++){
-                list.Add(new ReadUserDto{
-                    Email =  a[i].Email, Name =  a[i].Name, Id =  a[i].Id,
-                    IsActive = a[i].IsActive, IsAdmin = a[i].IsAdmin, CityId = a[i].CityId, Gender = a[i].Gender 
+            List<User> a = _userRepository.GetAllUSer(request.Top,request.OderBy,request.Filter,request.Search);     
+            foreach(var i in a){
+                list.Add(new ReadUserDto{   
+                    Email =  i.Email, Name =  i.Name, Id =  i.Id,
+                    IsActive = i.IsActive, IsAdmin = i.IsAdmin, CityId = i.CityId, Gender = i.Gender 
                 });
             }
             return list;
