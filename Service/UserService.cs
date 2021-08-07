@@ -119,7 +119,7 @@ namespace TalktifAPI.Service
         public SignUpRespond signUp(SignUpRequest user)
         {
             User read = _userService.GetUserByEmail(user.Email);
-            if(read!=null) throw new Exception("User has already exist"); 
+            if(read!=null||IsValidEmail(user.Email)) throw new Exception("User has already exist"); 
             _userService.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),
                                 user.Gender,user.CityId,false,user.Hobbies));
             read = _userService.GetUserByEmail(user.Email);
@@ -170,6 +170,16 @@ namespace TalktifAPI.Service
         public List<City> GettCityByCountry(int countryid)
         {
             return _cityRepository.GetCityByCountry(countryid);
+        }
+        bool IsValidEmail(string email)
+        {
+            try {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch {
+                return false;
+                }   
         }
     }   
 }

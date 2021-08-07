@@ -54,7 +54,7 @@ namespace TalktifAPI.Service
             int count = _reportRepository.Count();
             List<GetReportRespond> list = new List<GetReportRespond>();
             if(request.From < request.To || count < request.From || count < request.To ) throw new IndexOutOfRangeException();
-            var read = _reportRepository.GetAllReport(count - request.To,request.OderBy);
+            var read = _reportRepository.GetAllReport(count - request.To,request.OderBy,request.Filter,request.Search);
             Report[] a = read.ToArray();           
             for(int i=count - request.From;i<count - request.To;i++){
                 list.Add(new GetReportRespond{
@@ -71,7 +71,7 @@ namespace TalktifAPI.Service
             int count = _userRepository.Count();
             List<ReadUserDto> list = new List<ReadUserDto>();
             if(request.From < request.To || count < request.From || count < request.To) throw new IndexOutOfRangeException();
-            List<User> read = _userRepository.GetAllUSer(count - request.To,request.OderBy);
+            List<User> read = _userRepository.GetAllUSer(count - request.To,request.OderBy,request.Filter,request.Search);
             User[] a = read.ToArray();           
             for(int i=count - request.From;i<count - request.To;i++){
                 list.Add(new ReadUserDto{

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TalktifAPI.Models;
@@ -10,13 +11,45 @@ namespace TalktifAPI.Repository
         {
         }
 
-        public List<User> GetAllUSer(int top,string oderby)
+        public List<User> GetAllUSer(int top,string oderby,String filter,String search)
         {
             switch(oderby){
-                case "Id" : return Entities.OrderByDescending(p => p.Id).Take(top).ToList(); 
-                case "Name" : return Entities.OrderByDescending(p => p.Name).Take(top).ToList();
-                case "Email" : return Entities.OrderByDescending(p => p.Email).Take(top).ToList();
-                default : return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
+                case "Id" : 
+                {
+                    switch(filter){
+                        case "ID" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
+                        case "Name" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        default : return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
+                    }
+                }
+                case "Name" : 
+                {
+                    switch(filter){
+                        case "ID" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
+                        case "Name" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Name.Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        default : return Entities.OrderByDescending(p => p.Name).Take(top).ToList();
+                    }
+                }
+                case "Email" : 
+                {
+                    switch(filter){
+                        case "ID" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
+                        case "Name" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Name.Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        default : return Entities.OrderByDescending(p => p.Email).Take(top).ToList();
+                    }
+                }
+                default : 
+                {
+                    switch(filter){
+                        case "ID" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
+                        case "Name" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        default : return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
+                    }
+                }
             }           
         }
 
