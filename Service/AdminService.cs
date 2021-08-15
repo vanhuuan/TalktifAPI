@@ -123,7 +123,7 @@ namespace TalktifAPI.Service
         public ReadUserDto CreateUser(SignUpRequest user)
         {
             User read = _userRepository.GetUserByEmail(user.Email);
-            if(read!=null) throw new Exception("User has already exist"+ read.Id);
+            if(read!=null||IsValidEmail(user.Email)) throw new Exception("User has already exist"+ read.Id);
             _userRepository.Insert(new User(user.Name,user.Email,BC.HashPassword(user.Password),user.Gender,user.CityId,true,"ADMIN"));
             read = _userRepository.GetUserByEmail(user.Email);
             return new ReadUserDto{ Id = read.Id, Email = user.Email,IsActive = read.IsActive,
@@ -158,6 +158,16 @@ namespace TalktifAPI.Service
                 return new GetReportRespond{ Id = report.Id, Reporter =  report.Reporter, Reason =  report.Reason,
                     Suspect = report.Suspect , Status = report.Status , Note = report.Note, createAt = report.CreatedAt};
             }
+        }
+        bool IsValidEmail(string email)
+        {
+            try {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch {
+                return false;
+                }   
         }
     }
 }
