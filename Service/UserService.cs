@@ -101,7 +101,7 @@ namespace TalktifAPI.Service
         { 
             User read = _userService.GetUserByEmail(user.Email);
             if(read==null) throw new Exception("Wrong Email");
-            if (true == BC.Verify(user.Password, read.Password) && read.IsActive == true){
+            if (BC.Verify(user.Password, read.Password) && read.IsActive == true){
                 string token = _jwtService.GenerateRefreshToken(read.Id);
                 _tokenService.Insert(new UserRefreshToken{
                 User = read.Id,RefreshToken = token,
