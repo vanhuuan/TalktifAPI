@@ -203,6 +203,11 @@ namespace TalktifAPI.Migrations
                         .HasColumnName("gender")
                         .HasDefaultValueSql("((1))");
 
+                    b.Property<string>("Hobbies")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("hobbies");
+
                     b.Property<bool?>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")

@@ -10,8 +10,8 @@ using TalktifAPI.Models;
 namespace TalktifAPI.Migrations
 {
     [DbContext(typeof(TalktifContext))]
-    [Migration("20210516011235_Email service")]
-    partial class Emailservice
+    [Migration("20210815021857_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,6 +48,57 @@ namespace TalktifAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Chat_Room");
+                });
+
+            modelBuilder.Entity("TalktifAPI.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CountryId")
+                        .HasColumnType("int")
+                        .HasColumnName("countryId");
+
+                    b.Property<DateTime?>("CreatedAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("createdAt");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CountryId");
+
+                    b.ToTable("City");
+                });
+
+            modelBuilder.Entity("TalktifAPI.Models.Country", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreateAt")
+                        .HasColumnType("datetime")
+                        .HasColumnName("createAt");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Country");
                 });
 
             modelBuilder.Entity("TalktifAPI.Models.Message", b =>
@@ -133,9 +184,9 @@ namespace TalktifAPI.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool?>("ConfirmedEmail")
-                        .HasColumnType("bit")
-                        .HasColumnName("confirmedEmail");
+                    b.Property<int>("CityId")
+                        .HasColumnType("int")
+                        .HasColumnName("cityId");
 
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("datetime")
@@ -155,8 +206,8 @@ namespace TalktifAPI.Migrations
                         .HasDefaultValueSql("((1))");
 
                     b.Property<string>("Hobbies")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("hobbies");
 
                     b.Property<bool?>("IsActive")
@@ -166,6 +217,7 @@ namespace TalktifAPI.Migrations
                         .HasDefaultValueSql("((1))");
 
                     b.Property<bool?>("IsAdmin")
+                        .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasColumnName("isAdmin")
@@ -186,7 +238,9 @@ namespace TalktifAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "Email" }, "UQ__User__AB6E616459FFB8D3")
+                    b.HasIndex("CityId");
+
+                    b.HasIndex(new[] { "Email" }, "UQ__User__AB6E6164D5F5877F")
                         .IsUnique();
 
                     b.ToTable("User");
@@ -203,12 +257,13 @@ namespace TalktifAPI.Migrations
                         .HasColumnName("chatRoomId");
 
                     b.Property<string>("NickName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("nickname");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("nickName");
 
                     b.HasKey("User", "ChatRoomId")
-                        .HasName("PK__User_Cha__4372E63A933B1139");
+                        .HasName("PK__User_Cha__4372E63A22407D25");
 
                     b.HasIndex("ChatRoomId");
 
@@ -229,9 +284,9 @@ namespace TalktifAPI.Migrations
 
                     b.Property<string>("Device")
                         .IsRequired()
-                        .HasMaxLength(1000)
+                        .HasMaxLength(100)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(1000)")
+                        .HasColumnType("varchar(100)")
                         .HasColumnName("device");
 
                     b.Property<string>("RefreshToken")
@@ -252,12 +307,23 @@ namespace TalktifAPI.Migrations
                     b.ToTable("User_RefreshToken");
                 });
 
+            modelBuilder.Entity("TalktifAPI.Models.City", b =>
+                {
+                    b.HasOne("TalktifAPI.Models.Country", "Country")
+                        .WithMany("Cities")
+                        .HasForeignKey("CountryId")
+                        .HasConstraintName("FK__City__countryId__17F790F9")
+                        .IsRequired();
+
+                    b.Navigation("Country");
+                });
+
             modelBuilder.Entity("TalktifAPI.Models.Message", b =>
                 {
                     b.HasOne("TalktifAPI.Models.ChatRoom", "ChatRoom")
                         .WithMany("Messages")
                         .HasForeignKey("ChatRoomId")
-                        .HasConstraintName("FK__Message__chatRoo__7F2BE32F")
+                        .HasConstraintName("FK__Message__chatRoo__7755B73D")
                         .IsRequired();
 
                     b.Navigation("ChatRoom");
@@ -268,10 +334,21 @@ namespace TalktifAPI.Migrations
                     b.HasOne("TalktifAPI.Models.User", "ReporterNavigation")
                         .WithMany("Reports")
                         .HasForeignKey("Reporter")
-                        .HasConstraintName("FK__Report__reporter__73BA3083")
+                        .HasConstraintName("FK__Report__reporter__7A3223E8")
                         .IsRequired();
 
                     b.Navigation("ReporterNavigation");
+                });
+
+            modelBuilder.Entity("TalktifAPI.Models.User", b =>
+                {
+                    b.HasOne("TalktifAPI.Models.City", "City")
+                        .WithMany("Users")
+                        .HasForeignKey("CityId")
+                        .HasConstraintName("FK__User__cityId__690797E6")
+                        .IsRequired();
+
+                    b.Navigation("City");
                 });
 
             modelBuilder.Entity("TalktifAPI.Models.UserChatRoom", b =>
@@ -279,13 +356,13 @@ namespace TalktifAPI.Migrations
                     b.HasOne("TalktifAPI.Models.ChatRoom", "ChatRoom")
                         .WithMany("UserChatRooms")
                         .HasForeignKey("ChatRoomId")
-                        .HasConstraintName("FK__User_Chat__chatR__7B5B524B")
+                        .HasConstraintName("FK__User_Chat__chatR__74794A92")
                         .IsRequired();
 
                     b.HasOne("TalktifAPI.Models.User", "UserNavigation")
                         .WithMany("UserChatRooms")
                         .HasForeignKey("User")
-                        .HasConstraintName("FK__User_ChatR__user__7A672E12")
+                        .HasConstraintName("FK__User_ChatR__user__73852659")
                         .IsRequired();
 
                     b.Navigation("ChatRoom");
@@ -298,7 +375,7 @@ namespace TalktifAPI.Migrations
                     b.HasOne("TalktifAPI.Models.User", "UserNavigation")
                         .WithMany("UserRefreshTokens")
                         .HasForeignKey("User")
-                        .HasConstraintName("FK__User_Refre__user__628FA481")
+                        .HasConstraintName("FK__User_Refre__user__6EC0713C")
                         .IsRequired();
 
                     b.Navigation("UserNavigation");
@@ -309,6 +386,16 @@ namespace TalktifAPI.Migrations
                     b.Navigation("Messages");
 
                     b.Navigation("UserChatRooms");
+                });
+
+            modelBuilder.Entity("TalktifAPI.Models.City", b =>
+                {
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("TalktifAPI.Models.Country", b =>
+                {
+                    b.Navigation("Cities");
                 });
 
             modelBuilder.Entity("TalktifAPI.Models.User", b =>
