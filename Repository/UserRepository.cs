@@ -20,7 +20,7 @@ namespace TalktifAPI.Repository
                     switch(filter){
                         case "ID" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
                         case "Name" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(search)).Take(top).ToList();
-                        case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.Contains(search)).Take(top).ToList();
                         default : {
                             return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
                         }
@@ -31,7 +31,7 @@ namespace TalktifAPI.Repository
                     switch(filter){
                         case "ID" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
                         case "Name" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Name.Contains(search)).Take(top).ToList();
-                        case "Email" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Name).Where(p => p.Email.Contains(search)).Take(top).ToList();
                         default : return Entities.OrderByDescending(p => p.Name).Take(top).ToList();
                     }
                 }
@@ -40,7 +40,7 @@ namespace TalktifAPI.Repository
                     switch(filter){
                         case "ID" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
                         case "Name" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Name.Contains(search)).Take(top).ToList();
-                        case "Email" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Email).Where(p => p.Email.Contains(search)).Take(top).ToList();
                         default : return Entities.OrderByDescending(p => p.Email).Take(top).ToList();
                     }
                 }
@@ -49,7 +49,7 @@ namespace TalktifAPI.Repository
                     switch(filter){
                         case "ID" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Id.ToString().Contains(search)).Take(top).ToList();
                         case "Name" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Name.Contains(search)).Take(top).ToList();
-                        case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.ToString().Contains(search)).Take(top).ToList();
+                        case "Email" : return Entities.OrderByDescending(p => p.Id).Where(p => p.Email.Contains(search)).Take(top).ToList();
                         default : return Entities.OrderByDescending(p => p.Id).Take(top).ToList();
                     }
                 }
